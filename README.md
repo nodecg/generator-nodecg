@@ -6,6 +6,9 @@
 
 > Yeoman generator for [NodeCG](http://nodecg.com/) bundles
 
+generator-nodecg can be used to quickly start a new bundle with the barebones boilerplate files that every bundle needs.
+It can also be used to add a new panel, graphic, or extension in an existing bundle.
+
 ## Installation
 
 First, install [Yeoman](http://yeoman.io) and generator-nodecg using [npm](https://www.npmjs.com/) 
