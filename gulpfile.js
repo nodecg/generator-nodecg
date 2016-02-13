@@ -11,6 +11,10 @@ var filter = require('gulp-filter');
 
 gulp.task('static', function () {
 	return gulp.src('**/*.js')
+		.pipe(filter([
+			'**',
+			'!extension/templates/**'
+		]))
 		.pipe(excludeGitignore())
 		.pipe(eslint())
 		.pipe(eslint.format())

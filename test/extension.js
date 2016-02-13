@@ -1,6 +1,4 @@
 'use strict';
-var _ = require('lodash');
-var mockery = require('mockery');
 var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
@@ -39,7 +37,7 @@ describe('nodecg:extension', function () {
 					.withPrompts({type: 'file'})
 					.on('ready', function (gen) {
 						gen.fs.write(gen.destinationPath('extension.js'), 'foo');
-					}.bind(this))
+					})
 					.on('end', done);
 			});
 
@@ -54,7 +52,7 @@ describe('nodecg:extension', function () {
 					.withPrompts({type: 'folder'})
 					.on('ready', function (gen) {
 						gen.fs.write(gen.destinationPath('extension/index.js'), 'foo');
-					}.bind(this))
+					})
 					.on('end', done);
 			});
 
