@@ -13,7 +13,7 @@ gulp.task('static', function () {
 	return gulp.src('**/*.js')
 		.pipe(filter([
 			'**',
-			'!extension/templates/**'
+			'!generators/extension/templates/**'
 		]))
 		.pipe(excludeGitignore())
 		.pipe(eslint())

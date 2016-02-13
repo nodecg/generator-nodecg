@@ -39,7 +39,6 @@ module.exports = yeoman.Base.extend({
 		// If this bundle already has an extension, do nothing.
 		if (this.fs.exists(this.destinationPath('extension.js')) ||
 			this.fs.exists(this.destinationPath('extension/index.js'))) {
-
 			return;
 		}
 
