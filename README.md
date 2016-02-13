@@ -1,4 +1,9 @@
-# generator-nodecg [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# generator-nodecg 
+[![NPM version][npm-image]][npm-url] 
+[![Build Status][travis-image]][travis-url] 
+[![Test Coverage][coveralls-image]][coveralls-url]
+[![Dependency Status][daviddm-image]][daviddm-url]
+
 > Yeoman generator for [NodeCG](http://nodecg.com/) bundles
 
 ## Installation
@@ -48,3 +53,5 @@ MIT © [Alex Van Camp](http://alexvan.camp)
 [travis-url]: https://travis-ci.org/nodecg/generator-nodecg
 [daviddm-image]: https://david-dm.org/nodecg/generator-nodecg.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/nodecg/generator-nodecg
+[coveralls-image]: https://coveralls.io/repos/github/nodecg/generator-nodecg/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/nodecg/generator-nodecg?branch=master
