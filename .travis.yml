@@ -4,6 +4,8 @@ node_js:
   - v4
   - v5
 
+after_success: npm run coveralls
+
 notifications:
   email: false
   webhooks:
