@@ -32,7 +32,7 @@ describe('nodecg:app', function () {
 
 	describe('running on new project', function () {
 		before(function (done) {
-			this.timeout(4000);
+			this.timeout(10000);
 			this.answers = {
 				name: 'test-bundle',
 				description: 'A NodeCG bundle',
