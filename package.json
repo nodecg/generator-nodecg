@@ -25,7 +25,7 @@
     "git-config": "0.0.7",
     "github-username": "^2.1.0",
     "inquirer-npm-name": "^1.0.0",
-    "lodash": "^4.2.1",
+    "lodash": "^4.10.0",
     "mkdirp": "^0.5.1",
     "parse-author": "^0.2.0",
     "yeoman-generator": "^0.22.5",
