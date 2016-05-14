@@ -46,7 +46,7 @@ module.exports = yeoman.Base.extend({
 				default: false
 			}];
 
-			this.prompt(prompts, function (props) {
+			this.prompt(prompts).then(function (props) {
 				this.props = extend(this.props, props);
 				done();
 			}.bind(this));

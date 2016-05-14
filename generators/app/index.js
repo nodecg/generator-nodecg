@@ -13,7 +13,7 @@ var parseAuthor = require('parse-author');
 
 module.exports = yeoman.Base.extend({
 	constructor: function () {
-		yeoman.generators.Base.apply(this, arguments);
+		yeoman.Base.apply(this, arguments);
 
 		this.option('editorconfig', {
 			type: Boolean,
@@ -24,9 +24,7 @@ module.exports = yeoman.Base.extend({
 
 	initializing: function () {
 		// Have Yeoman greet the user.
-		this.log(yosay(
-			'Welcome to the ' + chalk.red('NodeCG bundle') + ' generator!'
-		));
+		this.log(yosay('Welcome to the ' + chalk.red('NodeCG bundle') + ' generator!'));
 
 		this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 
@@ -52,9 +50,7 @@ module.exports = yeoman.Base.extend({
 
 	prompting: {
 		askForModuleName: function () {
-			var done = this.async();
-
-			askName({
+			return askName({
 				name: 'name',
 				message: 'Your bundle Name',
 				default: _.kebabCase(path.basename(process.cwd())),
@@ -62,9 +58,8 @@ module.exports = yeoman.Base.extend({
 				validate: function (str) {
 					return str.length > 0;
 				}
-			}, this, function (name) {
+			}, this).then(function ({name}) {
 				this.props.name = name;
-				done();
 			}.bind(this));
 		},
 
@@ -122,7 +117,7 @@ module.exports = yeoman.Base.extend({
 				type: 'confirm'
 			}];
 
-			this.prompt(prompts, function (props) {
+			this.prompt(prompts).then(function (props) {
 				this.props = extend(this.props, props);
 				done();
 			}.bind(this));
@@ -139,7 +134,7 @@ module.exports = yeoman.Base.extend({
 					name: 'githubAccount',
 					message: 'GitHub username or organization',
 					default: username
-				}, function (prompt) {
+				}).then(function (prompt) {
 					this.props.githubAccount = prompt.githubAccount;
 					done();
 				}.bind(this));
@@ -198,6 +193,7 @@ module.exports = yeoman.Base.extend({
 
 	default: function () {
 		if (path.basename(this.destinationPath()) !== this.props.name) {
+			console.log(this.props.name);
 			this.log(
 				'Your bundle must be inside a folder named ' + this.props.name + '\n' +
 				'I\'ll automatically create this folder.'
