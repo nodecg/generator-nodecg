@@ -22,7 +22,7 @@ module.exports = yeoman.Base.extend({
 				filter: _.kebabCase
 			}];
 
-			this.prompt(prompts, function (props) {
+			this.prompt(prompts).then(function (props) {
 				this.props = extend(this.props, props);
 				done();
 			}.bind(this));
@@ -94,7 +94,7 @@ module.exports = yeoman.Base.extend({
 				}
 			}];
 
-			this.prompt(prompts, function (props) {
+			this.prompt(prompts).then(function (props) {
 				this.props = extend(this.props, props);
 				done();
 			}.bind(this));

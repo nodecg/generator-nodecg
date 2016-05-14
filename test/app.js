@@ -12,8 +12,10 @@ describe('nodecg:app', function () {
 			warnOnUnregistered: false
 		});
 
-		mockery.registerMock('npm-name', function (name, cb) {
-			cb(null, true);
+		mockery.registerMock('npm-name', function () {
+			return new Promise(function (resolve) {
+				resolve(true);
+			});
 		});
 
 		mockery.registerMock('github-username', function (name, cb) {
@@ -49,9 +51,7 @@ describe('nodecg:app', function () {
 		});
 
 		it('creates files', function () {
-			assert.file([
-				'README.md'
-			]);
+			assert.file(['README.md']);
 		});
 
 		it('creates package.json', function () {
