@@ -21,7 +21,7 @@
     "chalk": "^1.0.0",
     "deep-extend": "^0.4.1",
     "generator-license": "^3.1.1",
-    "generator-node": "^1.8.3",
+    "generator-node": "^1.10.2",
     "git-config": "0.0.7",
     "github-username": "^2.1.0",
     "inquirer-npm-name": "^2.0.0",
