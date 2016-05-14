@@ -189,6 +189,9 @@ module.exports = yeoman.Base.extend({
 				}
 			);
 		}
+
+		// Replace the .gitignore from node:git with our own.
+		this.fs.write(this.destinationPath('.gitignore'), 'node_modules\ncoverage\nbower_components');
 	},
 
 	default: function () {
