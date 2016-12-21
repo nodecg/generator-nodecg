@@ -12,16 +12,6 @@ const githubUsername = require('github-username');
 const parseAuthor = require('parse-author');
 
 module.exports = Generator.extend({
-	constructor() {
-		Generator.apply(this, arguments);
-
-		this.option('editorconfig', {
-			type: Boolean,
-			required: false,
-			desc: 'Add NodeCG\'s recommended editorconfig to your bundle'
-		});
-	},
-
 	initializing() {
 		// Have Yeoman greet the user.
 		this.log(yosay('Welcome to the ' + chalk.red('NodeCG bundle') + ' generator!'));
@@ -197,7 +187,6 @@ module.exports = Generator.extend({
 
 	default() {
 		if (path.basename(this.destinationPath()) !== this.props.name) {
-			console.log(this.props.name);
 			this.log(
 				'Your bundle must be inside a folder named ' + this.props.name + '\n' +
 				'I\'ll automatically create this folder.'
@@ -206,43 +195,29 @@ module.exports = Generator.extend({
 			this.destinationRoot(this.destinationPath(this.props.name));
 		}
 
-		this.composeWith('node:git', {
-			options: {
-				name: this.props.name,
-				githubAccount: this.props.githubAccount
-			}
-		}, {
-			local: require.resolve('generator-node/generators/git')
+		this.composeWith(require.resolve('generator-node/generators/git'), {
+			name: this.props.name,
+			githubAccount: this.props.githubAccount
 		});
 
 		if (!this.pkg.license) {
-			this.composeWith('license', {
-				options: {
-					name: this.props.authorName,
-					email: this.props.authorEmail,
-					website: this.props.authorUrl
-				}
-			}, {
-				local: require.resolve('generator-license/app')
+			this.composeWith(require.resolve('generator-license/app'), {
+				name: this.props.authorName,
+				email: this.props.authorEmail,
+				website: this.props.authorUrl
 			});
 		}
 
 		if (this.props.dashboardPanel) {
-			this.composeWith('nodecg:panel', {}, {
-				local: require.resolve('./../panel')
-			});
+			this.composeWith(require.resolve('./../panel'));
 		}
 
 		if (this.props.graphic) {
-			this.composeWith('nodecg:graphic', {}, {
-				local: require.resolve('./../graphic')
-			});
+			this.composeWith(require.resolve('./../graphic'));
 		}
 
 		if (this.props.extension) {
-			this.composeWith('nodecg:extension', {}, {
-				local: require.resolve('./../extension')
-			});
+			this.composeWith(require.resolve('./../extension'));
 		}
 	}
 });

@@ -29,7 +29,7 @@ gulp.task('pre-test', () => {
 	return gulp.src('generators/**/*.js')
 		.pipe(filter([
 			'**',
-			'!extension/templates/**'
+			'!generators/extension/templates/**'
 		]))
 		.pipe(excludeGitignore())
 		.pipe(istanbul({
