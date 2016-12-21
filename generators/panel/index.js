@@ -1,37 +1,37 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
-var extend = require('deep-extend');
-var _ = require('lodash');
+const Generator = require('yeoman-generator');
+const extend = require('deep-extend');
+const _ = require('lodash');
 
-module.exports = yeoman.Base.extend({
-	initializing: function () {
+module.exports = Generator.extend({
+	initializing() {
 		this.props = {};
 	},
 
 	prompting: {
 		// Begin by asking for just the panel name.
 		// This will be used to supply the default panel title.
-		askForPanelName: function () {
-			var done = this.async();
+		askForPanelName() {
+			const done = this.async();
 
-			var prompts = [{
+			const prompts = [{
 				type: 'input',
 				name: 'name',
 				message: 'Your panel\'s name',
 				filter: _.kebabCase
 			}];
 
-			this.prompt(prompts).then(function (props) {
+			this.prompt(prompts).then(props => {
 				this.props = extend(this.props, props);
 				done();
-			}.bind(this));
+			});
 		},
 
-		askFor: function () {
-			var done = this.async();
+		askFor() {
+			const done = this.async();
 
-			var prompts = [{
+			const prompts = [{
 				type: 'input',
 				name: 'title',
 				message: 'Your panel\'s title',
@@ -41,10 +41,10 @@ module.exports = yeoman.Base.extend({
 				name: 'width',
 				message: 'How many width units (1-8) should your panel be?',
 				default: 2,
-				filter: function (input) {
+				filter(input) {
 					return parseInt(input, 10);
 				},
-				validate: function (input) {
+				validate(input) {
 					return input > 0 && input <= 8;
 				}
 			}, {
@@ -57,7 +57,7 @@ module.exports = yeoman.Base.extend({
 				name: 'headerColor',
 				message: 'What hex color would you like your panel\'s header to be?',
 				default: '#9f9bbd',
-				when: function (answers) {
+				when(answers) {
 					return !answers.dialog;
 				}
 			}, {
@@ -65,7 +65,7 @@ module.exports = yeoman.Base.extend({
 				name: 'dialogConfirmBtn',
 				message: 'Should this dialog have a "confirm" button?',
 				default: true,
-				when: function (answers) {
+				when(answers) {
 					return answers.dialog;
 				}
 			}, {
@@ -73,7 +73,7 @@ module.exports = yeoman.Base.extend({
 				name: 'dialogConfirmBtnLabel',
 				message: 'What should the "confirm" button\'s label be?',
 				default: 'Confirm',
-				when: function (answers) {
+				when(answers) {
 					return answers.dialogConfirmBtn;
 				}
 			}, {
@@ -81,7 +81,7 @@ module.exports = yeoman.Base.extend({
 				name: 'dialogDismissBtn',
 				message: 'Should this dialog have a "dismiss" button?',
 				default: true,
-				when: function (answers) {
+				when(answers) {
 					return answers.dialog;
 				}
 			}, {
@@ -89,26 +89,26 @@ module.exports = yeoman.Base.extend({
 				name: 'dialogDismissBtnLabel',
 				message: 'What should the "dismiss" button\'s label be?',
 				default: 'Dismiss',
-				when: function (answers) {
+				when(answers) {
 					return answers.dialogDismissBtn;
 				}
 			}];
 
-			this.prompt(prompts).then(function (props) {
+			this.prompt(prompts).then(props => {
 				this.props = extend(this.props, props);
 				done();
-			}.bind(this));
+			});
 		}
 	},
 
-	writing: function () {
-		var html = this.fs.read(this.templatePath('panel.html'));
-		var panelFilePath = this.destinationPath('dashboard/' + this.props.name + '.html');
+	writing() {
+		const html = this.fs.read(this.templatePath('panel.html'));
+		const panelFilePath = this.destinationPath('dashboard/' + this.props.name + '.html');
 		if (!this.fs.exists(panelFilePath)) {
 			this.fs.write(panelFilePath, html);
 		}
 
-		var panelProps = {
+		const panelProps = {
 			name: this.props.name,
 			title: this.props.title,
 			width: this.props.width,
@@ -138,7 +138,7 @@ module.exports = yeoman.Base.extend({
 		}
 
 		// Re-read the content at this point because a composed generator might modify it.
-		var currentPkg = this.fs.readJSON(this.destinationPath('package.json'), {});
+		const currentPkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 		currentPkg.nodecg = currentPkg.nodecg || {};
 		currentPkg.nodecg.dashboardPanels = currentPkg.nodecg.dashboardPanels || [];
 		currentPkg.nodecg.dashboardPanels.push(panelProps);

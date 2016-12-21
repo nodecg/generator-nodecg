@@ -1,28 +1,18 @@
 'use strict';
 
-var path = require('path');
-var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
-var yosay = require('yosay');
-var _ = require('lodash');
-var askName = require('inquirer-npm-name');
-var extend = require('deep-extend');
-var mkdirp = require('mkdirp');
-var githubUsername = require('github-username');
-var parseAuthor = require('parse-author');
+const path = require('path');
+const Generator = require('yeoman-generator');
+const chalk = require('chalk');
+const yosay = require('yosay');
+const _ = require('lodash');
+const askName = require('inquirer-npm-name');
+const extend = require('deep-extend');
+const mkdirp = require('mkdirp');
+const githubUsername = require('github-username');
+const parseAuthor = require('parse-author');
 
-module.exports = yeoman.Base.extend({
-	constructor: function () {
-		yeoman.Base.apply(this, arguments);
-
-		this.option('editorconfig', {
-			type: Boolean,
-			required: false,
-			desc: 'Add NodeCG\'s recommended editorconfig to your bundle'
-		});
-	},
-
-	initializing: function () {
+module.exports = Generator.extend({
+	initializing() {
 		// Have Yeoman greet the user.
 		this.log(yosay('Welcome to the ' + chalk.red('NodeCG bundle') + ' generator!'));
 
@@ -41,7 +31,7 @@ module.exports = yeoman.Base.extend({
 			this.props.authorEmail = this.pkg.author.email;
 			this.props.authorUrl = this.pkg.author.url;
 		} else if (_.isString(this.pkg.author)) {
-			var info = parseAuthor(this.pkg.author);
+			const info = parseAuthor(this.pkg.author);
 			this.props.authorName = info.name;
 			this.props.authorEmail = info.email;
 			this.props.authorUrl = info.url;
@@ -49,24 +39,24 @@ module.exports = yeoman.Base.extend({
 	},
 
 	prompting: {
-		askForModuleName: function () {
+		askForModuleName() {
 			return askName({
 				name: 'name',
 				message: 'Your bundle Name',
 				default: _.kebabCase(path.basename(process.cwd())),
 				filter: _.kebabCase,
-				validate: function (str) {
+				validate(str) {
 					return str.length > 0;
 				}
-			}, this).then(function ({name}) {
+			}, this).then(({name}) => {
 				this.props.name = name;
-			}.bind(this));
+			});
 		},
 
-		askFor: function () {
-			var done = this.async();
+		askFor() {
+			const done = this.async();
 
-			var prompts = [{
+			const prompts = [{
 				name: 'description',
 				message: 'Description',
 				when: !this.props.description
@@ -95,7 +85,7 @@ module.exports = yeoman.Base.extend({
 				name: 'keywords',
 				message: 'Package keywords (comma to split)',
 				when: !this.pkg.keywords,
-				filter: function (words) {
+				filter(words) {
 					return words.split(/\s*,\s*/g);
 				}
 			}, {
@@ -117,36 +107,37 @@ module.exports = yeoman.Base.extend({
 				type: 'confirm'
 			}];
 
-			this.prompt(prompts).then(function (props) {
+			this.prompt(prompts).then(props => {
 				this.props = extend(this.props, props);
 				done();
-			}.bind(this));
+			});
 		},
 
-		askForGithubAccount: function () {
-			var done = this.async();
+		askForGithubAccount() {
+			const done = this.async();
 
-			githubUsername(this.props.authorEmail, function (err, username) {
+			githubUsername(this.props.authorEmail, (err, username) => {
 				if (err) {
 					username = username || '';
 				}
+
 				this.prompt({
 					name: 'githubAccount',
 					message: 'GitHub username or organization',
 					default: username
-				}).then(function (prompt) {
+				}).then(prompt => {
 					this.props.githubAccount = prompt.githubAccount;
 					done();
-				}.bind(this));
-			}.bind(this));
+				});
+			});
 		}
 	},
 
-	writing: function () {
+	writing() {
 		// Re-read the content at this point because a composed generator might modify it.
-		var currentPkg = this.fs.readJSON(this.destinationPath('package.json'), {});
+		const currentPkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 
-		var pkg = extend({
+		const pkg = extend({
 			name: _.kebabCase(this.props.name),
 			version: '0.0.0',
 			description: this.props.description,
@@ -194,9 +185,8 @@ module.exports = yeoman.Base.extend({
 		this.fs.write(this.destinationPath('.gitignore'), 'node_modules\ncoverage\nbower_components');
 	},
 
-	default: function () {
+	default() {
 		if (path.basename(this.destinationPath()) !== this.props.name) {
-			console.log(this.props.name);
 			this.log(
 				'Your bundle must be inside a folder named ' + this.props.name + '\n' +
 				'I\'ll automatically create this folder.'
@@ -205,43 +195,29 @@ module.exports = yeoman.Base.extend({
 			this.destinationRoot(this.destinationPath(this.props.name));
 		}
 
-		this.composeWith('node:git', {
-			options: {
-				name: this.props.name,
-				githubAccount: this.props.githubAccount
-			}
-		}, {
-			local: require.resolve('generator-node/generators/git')
+		this.composeWith(require.resolve('generator-node/generators/git'), {
+			name: this.props.name,
+			githubAccount: this.props.githubAccount
 		});
 
 		if (!this.pkg.license) {
-			this.composeWith('license', {
-				options: {
-					name: this.props.authorName,
-					email: this.props.authorEmail,
-					website: this.props.authorUrl
-				}
-			}, {
-				local: require.resolve('generator-license/app')
+			this.composeWith(require.resolve('generator-license/app'), {
+				name: this.props.authorName,
+				email: this.props.authorEmail,
+				website: this.props.authorUrl
 			});
 		}
 
 		if (this.props.dashboardPanel) {
-			this.composeWith('nodecg:panel', {}, {
-				local: require.resolve('./../panel')
-			});
+			this.composeWith(require.resolve('./../panel'));
 		}
 
 		if (this.props.graphic) {
-			this.composeWith('nodecg:graphic', {}, {
-				local: require.resolve('./../graphic')
-			});
+			this.composeWith(require.resolve('./../graphic'));
 		}
 
 		if (this.props.extension) {
-			this.composeWith('nodecg:extension', {}, {
-				local: require.resolve('./../extension')
-			});
+			this.composeWith(require.resolve('./../extension'));
 		}
 	}
 });

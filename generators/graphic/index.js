@@ -1,18 +1,18 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
-var extend = require('deep-extend');
+const Generator = require('yeoman-generator');
+const extend = require('deep-extend');
 
-module.exports = yeoman.Base.extend({
-	initializing: function () {
+module.exports = Generator.extend({
+	initializing() {
 		this.props = {};
 	},
 
 	prompting: {
-		askFor: function () {
-			var done = this.async();
+		askFor() {
+			const done = this.async();
 
-			var prompts = [{
+			const prompts = [{
 				type: 'input',
 				name: 'file',
 				message: 'Your graphic\'s file',
@@ -22,10 +22,10 @@ module.exports = yeoman.Base.extend({
 				name: 'width',
 				message: 'Your graphic\'s width (in pixels)',
 				default: 1280,
-				filter: function (input) {
+				filter(input) {
 					return parseInt(input, 10);
 				},
-				validate: function (input) {
+				validate(input) {
 					return input > 0;
 				}
 			}, {
@@ -33,10 +33,10 @@ module.exports = yeoman.Base.extend({
 				name: 'height',
 				message: 'Your graphic\'s height (in pixels)',
 				default: 720,
-				filter: function (input) {
+				filter(input) {
 					return parseInt(input, 10);
 				},
-				validate: function (input) {
+				validate(input) {
 					return input > 0;
 				}
 			}, {
@@ -46,21 +46,21 @@ module.exports = yeoman.Base.extend({
 				default: false
 			}];
 
-			this.prompt(prompts).then(function (props) {
+			this.prompt(prompts).then(props => {
 				this.props = extend(this.props, props);
 				done();
-			}.bind(this));
+			});
 		}
 	},
 
-	writing: function () {
-		var html = this.fs.read(this.templatePath('graphic.html'));
-		var graphicFilePath = this.destinationPath('graphics/' + this.props.file);
+	writing() {
+		const html = this.fs.read(this.templatePath('graphic.html'));
+		const graphicFilePath = this.destinationPath('graphics/' + this.props.file);
 		if (!this.fs.exists(graphicFilePath)) {
 			this.fs.write(graphicFilePath, html);
 		}
 
-		var graphicProps = {
+		const graphicProps = {
 			file: this.props.file,
 			width: this.props.width,
 			height: this.props.height
@@ -71,7 +71,7 @@ module.exports = yeoman.Base.extend({
 		}
 
 		// Re-read the content at this point because a composed generator might modify it.
-		var currentPkg = this.fs.readJSON(this.destinationPath('package.json'), {});
+		const currentPkg = this.fs.readJSON(this.destinationPath('package.json'), {});
 		currentPkg.nodecg = currentPkg.nodecg || {};
 		currentPkg.nodecg.graphics = currentPkg.nodecg.graphics || [];
 		currentPkg.nodecg.graphics.push(graphicProps);

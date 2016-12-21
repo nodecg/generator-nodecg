@@ -1,18 +1,18 @@
 'use strict';
 
-var yeoman = require('yeoman-generator');
-var extend = require('deep-extend');
+const Generator = require('yeoman-generator');
+const extend = require('deep-extend');
 
-module.exports = yeoman.Base.extend({
-	initializing: function () {
+module.exports = Generator.extend({
+	initializing() {
 		this.props = {};
 	},
 
 	prompting: {
-		askFor: function () {
-			var done = this.async();
+		askFor() {
+			const done = this.async();
 
-			var prompts = [{
+			const prompts = [{
 				type: 'list',
 				name: 'type',
 				message: 'How should your extension be organized?',
@@ -28,21 +28,21 @@ module.exports = yeoman.Base.extend({
 				default: 'file'
 			}];
 
-			this.prompt(prompts).then(function (props) {
+			this.prompt(prompts).then(props => {
 				this.props = extend(this.props, props);
 				done();
-			}.bind(this));
+			});
 		}
 	},
 
-	writing: function () {
+	writing() {
 		// If this bundle already has an extension, do nothing.
 		if (this.fs.exists(this.destinationPath('extension.js')) ||
 			this.fs.exists(this.destinationPath('extension/index.js'))) {
 			return;
 		}
 
-		var js = this.fs.read(this.templatePath('extension.js'));
+		const js = this.fs.read(this.templatePath('extension.js'));
 
 		if (this.props.type === 'file') {
 			this.fs.write(this.destinationPath('extension.js'), js);
