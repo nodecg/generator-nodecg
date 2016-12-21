@@ -1,24 +1,24 @@
 'use strict';
-var _ = require('lodash');
-var path = require('path');
-var assert = require('yeoman-assert');
-var helpers = require('yeoman-test');
+const _ = require('lodash');
+const path = require('path');
+const assert = require('yeoman-assert');
+const helpers = require('yeoman-test');
 
-describe('nodecg:panel', function () {
-	describe('running on new project', function () {
-		before(function (done) {
+describe('nodecg:panel', () => {
+	describe('running on new project', () => {
+		before(done => {
 			helpers.run(path.join(__dirname, '../generators/panel'))
 				.withPrompts({name: 'test-panel'})
 				.on('end', done);
 		});
 
-		it('creates files', function () {
+		it('creates files', () => {
 			assert.file([
 				'dashboard/test-panel.html'
 			]);
 		});
 
-		it('creates package.json', function () {
+		it('creates package.json', () => {
 			assert.file('package.json');
 			assert.jsonFileContent('package.json', {
 				nodecg: {
@@ -34,8 +34,8 @@ describe('nodecg:panel', function () {
 		});
 	});
 
-	describe('running on existing project', function () {
-		before(function (done) {
+	describe('running on existing project', () => {
+		before(done => {
 			this.pkg = {
 				name: 'test-bundle',
 				version: '1.0.34',
@@ -56,15 +56,15 @@ describe('nodecg:panel', function () {
 			};
 			helpers.run(path.join(__dirname, '../generators/panel'))
 				.withPrompts({name: 'test-panel'})
-				.on('ready', function (gen) {
+				.on('ready', gen => {
 					gen.fs.writeJSON(gen.destinationPath('package.json'), this.pkg);
 					gen.fs.write(gen.destinationPath('dashboard/test-panel.html'), 'foo');
-				}.bind(this))
+				})
 				.on('end', done);
 		});
 
 		it('extends package.json keys with missing ones', function () {
-			var pkg = _.extend({
+			const pkg = _.extend({
 				nodecg: {
 					dashboardPanels: [{
 						name: 'test-panel',
@@ -78,7 +78,7 @@ describe('nodecg:panel', function () {
 			assert.jsonFileContent('package.json', pkg);
 		});
 
-		it('does not overwrite previous html file', function () {
+		it('does not overwrite previous html file', () => {
 			assert.fileContent('dashboard/test-panel.html', 'foo');
 		});
 	});

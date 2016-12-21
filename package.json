@@ -28,7 +28,7 @@
     "lodash": "^4.10.0",
     "mkdirp": "^0.5.1",
     "parse-author": "^1.0.0",
-    "yeoman-generator": "^1.0.0",
+    "yeoman-generator": "^1.0.1",
     "yosay": "^1.0.2"
   },
   "devDependencies": {
@@ -46,12 +46,6 @@
     "npm-name": "^3.0.0",
     "yeoman-assert": "^2.0.0",
     "yeoman-test": "^1.0.0"
-  },
-  "eslintConfig": {
-    "extends": "xo",
-    "env": {
-      "mocha": true
-    }
   },
   "repository": {
     "type": "git",
