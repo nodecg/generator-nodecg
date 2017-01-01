@@ -20,7 +20,7 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "deep-extend": "^0.4.1",
-    "generator-license": "^4.0.0",
+    "generator-license": "^5.0.0",
     "generator-node": "^1.10.2",
     "git-config": "0.0.7",
     "github-username": "^3.0.0",
