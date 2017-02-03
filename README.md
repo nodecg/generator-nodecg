@@ -1,4 +1,6 @@
 # generator-nodecg 
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/nodecg/generator-nodecg.svg)](https://greenkeeper.io/)
 [![NPM version][npm-image]][npm-url] 
 [![Build Status][travis-image]][travis-url] 
 [![Test Coverage][coveralls-image]][coveralls-url]
