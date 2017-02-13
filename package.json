@@ -29,7 +29,7 @@
     "mkdirp": "^0.5.1",
     "parse-author": "^1.0.0",
     "yeoman-generator": "^1.0.1",
-    "yosay": "^1.0.2"
+    "yosay": "^2.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.6",
