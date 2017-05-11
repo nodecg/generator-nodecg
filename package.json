@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "chalk": "^1.0.0",
-    "deep-extend": "^0.4.1",
+    "deep-extend": "^0.5.0",
     "generator-license": "^5.0.0",
     "generator-node": "^2.0.0",
     "git-config": "0.0.7",
