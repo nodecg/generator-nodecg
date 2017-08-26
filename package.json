@@ -18,7 +18,7 @@
     "bundle"
   ],
   "dependencies": {
-    "chalk": "^1.0.0",
+    "chalk": "^2.0.0",
     "deep-extend": "^0.5.0",
     "generator-license": "^5.0.0",
     "generator-node": "^2.0.0",
