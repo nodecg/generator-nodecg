@@ -47,7 +47,7 @@ module.exports = Generator.extend({
 				message: 'How many width units (1-8) should your panel be?',
 				default: 2,
 				when(answers) {
-					return !answers.fullbleed
+					return !answers.fullbleed;
 				},
 				filter(input) {
 					return parseInt(input, 10);
@@ -61,7 +61,7 @@ module.exports = Generator.extend({
 				message: 'Is this panel a pop-up dialog?',
 				default: false,
 				when(answers) {
-					return !answers.fullbleed
+					return !answers.fullbleed;
 				}
 			}, {
 				type: 'input',
@@ -109,14 +109,14 @@ module.exports = Generator.extend({
 				message: 'Would you like to put this panel in custom workspace?',
 				default: false,
 				when(answers) {
-					return !answers.fullbleed
+					return !answers.fullbleed;
 				}
 			}, {
 				type: 'input',
 				name: 'workspaceName',
 				message: 'What name of the workspace would you like to put this panel in?',
 				when(answers) {
-					return !answers.fullbleed && answers.workspace
+					return !answers.fullbleed && answers.workspace;
 				}
 			}];
 
