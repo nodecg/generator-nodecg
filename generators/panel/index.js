@@ -37,10 +37,18 @@ module.exports = Generator.extend({
 				message: 'Your panel\'s title',
 				default: _.startCase(this.props.name)
 			}, {
+				type: 'confirm',
+				name: 'fullbleed',
+				message: 'Is this a fullbleed panel?',
+				default: false
+			}, {
 				type: 'input',
 				name: 'width',
 				message: 'How many width units (1-8) should your panel be?',
 				default: 2,
+				when(answers) {
+					return !answers.fullbleed;
+				},
 				filter(input) {
 					return parseInt(input, 10);
 				},
@@ -51,7 +59,10 @@ module.exports = Generator.extend({
 				type: 'confirm',
 				name: 'dialog',
 				message: 'Is this panel a pop-up dialog?',
-				default: false
+				default: false,
+				when(answers) {
+					return !answers.fullbleed;
+				}
 			}, {
 				type: 'input',
 				name: 'headerColor',
@@ -91,6 +102,21 @@ module.exports = Generator.extend({
 				default: 'Dismiss',
 				when(answers) {
 					return answers.dialogDismissBtn;
+				}
+			}, {
+				type: 'confirm',
+				name: 'workspace',
+				message: 'Would you like to put this panel in custom workspace?',
+				default: false,
+				when(answers) {
+					return !answers.fullbleed;
+				}
+			}, {
+				type: 'input',
+				name: 'workspaceName',
+				message: 'What name of the workspace would you like to put this panel in?',
+				when(answers) {
+					return !answers.fullbleed && answers.workspace;
 				}
 			}];
 
