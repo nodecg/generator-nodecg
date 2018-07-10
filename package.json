@@ -24,7 +24,7 @@
     "generator-node": "^2.0.0",
     "git-config": "0.0.7",
     "github-username": "^4.0.0",
-    "inquirer-npm-name": "^2.0.0",
+    "inquirer-npm-name": "^3.0.0",
     "lodash": "^4.10.0",
     "mkdirp": "^0.5.1",
     "parse-author": "^2.0.0",
