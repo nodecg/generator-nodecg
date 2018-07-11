@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 'use strict';
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
@@ -32,7 +34,7 @@ gulp.task('pre-test', () => {
 		.pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', ['pre-test'], cb => {
+gulp.task('test', gulp.series('pre-test', function testActual(cb) {
 	let mochaErr;
 
 	gulp.src('test/**/*.js')
@@ -45,10 +47,10 @@ gulp.task('test', ['pre-test'], cb => {
 		.on('end', () => {
 			cb(mochaErr);
 		});
-});
+}));
 
 gulp.task('watch', () => {
-	gulp.watch(['generators/**/*.js', 'test/**'], ['test']);
+	gulp.watch(['generators/**/*.js', 'test/**'], gulp.series('test'));
 });
 
-gulp.task('default', ['static', 'test']);
+gulp.task('default', gulp.parallel('static', 'test'));
