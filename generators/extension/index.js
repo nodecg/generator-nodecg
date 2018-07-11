@@ -3,37 +3,34 @@
 const Generator = require('yeoman-generator');
 const extend = require('deep-extend');
 
-module.exports = Generator.extend({
-	initializing() {
+module.exports = class extends Generator {
+	constructor(args, opts) {
+		super(args, opts);
+
 		this.props = {};
-	},
+	}
 
-	prompting: {
-		askFor() {
-			const done = this.async();
+	prompting() {
+		const prompts = [{
+			type: 'list',
+			name: 'type',
+			message: 'How should your extension be organized?',
+			choices: [{
+				name: 'In one file (extension.js)',
+				value: 'file',
+				short: 'file'
+			}, {
+				name: 'In a folder (extension/index.js)',
+				value: 'folder',
+				short: 'folder'
+			}],
+			default: 'file'
+		}];
 
-			const prompts = [{
-				type: 'list',
-				name: 'type',
-				message: 'How should your extension be organized?',
-				choices: [{
-					name: 'In one file (extension.js)',
-					value: 'file',
-					short: 'file'
-				}, {
-					name: 'In a folder (extension/index.js)',
-					value: 'folder',
-					short: 'folder'
-				}],
-				default: 'file'
-			}];
-
-			this.prompt(prompts).then(props => {
-				this.props = extend(this.props, props);
-				done();
-			});
-		}
-	},
+		return this.prompt(prompts).then(props => {
+			this.props = extend(this.props, props);
+		});
+	}
 
 	writing() {
 		// If this bundle already has an extension, do nothing.
@@ -50,4 +47,4 @@ module.exports = Generator.extend({
 			this.fs.write(this.destinationPath('extension/index.js'), js);
 		}
 	}
-});
+};
