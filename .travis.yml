@@ -1,7 +1,13 @@
 sudo: false
 language: node_js
 node_js:
-  - stable
+  - '8'
+
+cache:
+  directories:
+    - '$HOME/.npm'
+    - $(npm config get prefix)
+
 
 before_install:
   - npm install -g codecov
