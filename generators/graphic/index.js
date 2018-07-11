@@ -3,55 +3,52 @@
 const Generator = require('yeoman-generator');
 const extend = require('deep-extend');
 
-module.exports = Generator.extend({
-	initializing() {
+module.exports = class extends Generator {
+	constructor(args, opts) {
+		super(args, opts);
+
 		this.props = {};
-	},
+	}
 
-	prompting: {
-		askFor() {
-			const done = this.async();
+	prompting() {
+		const prompts = [{
+			type: 'input',
+			name: 'file',
+			message: 'Your graphic\'s file',
+			default: 'index.html'
+		}, {
+			type: 'input',
+			name: 'width',
+			message: 'Your graphic\'s width (in pixels)',
+			default: 1280,
+			filter(input) {
+				return parseInt(input, 10);
+			},
+			validate(input) {
+				return input > 0;
+			}
+		}, {
+			type: 'input',
+			name: 'height',
+			message: 'Your graphic\'s height (in pixels)',
+			default: 720,
+			filter(input) {
+				return parseInt(input, 10);
+			},
+			validate(input) {
+				return input > 0;
+			}
+		}, {
+			type: 'confirm',
+			name: 'singleInstance',
+			message: 'Is this a "single instance" graphic?',
+			default: false
+		}];
 
-			const prompts = [{
-				type: 'input',
-				name: 'file',
-				message: 'Your graphic\'s file',
-				default: 'index.html'
-			}, {
-				type: 'input',
-				name: 'width',
-				message: 'Your graphic\'s width (in pixels)',
-				default: 1280,
-				filter(input) {
-					return parseInt(input, 10);
-				},
-				validate(input) {
-					return input > 0;
-				}
-			}, {
-				type: 'input',
-				name: 'height',
-				message: 'Your graphic\'s height (in pixels)',
-				default: 720,
-				filter(input) {
-					return parseInt(input, 10);
-				},
-				validate(input) {
-					return input > 0;
-				}
-			}, {
-				type: 'confirm',
-				name: 'singleInstance',
-				message: 'Is this a "single instance" graphic?',
-				default: false
-			}];
-
-			this.prompt(prompts).then(props => {
-				this.props = extend(this.props, props);
-				done();
-			});
-		}
-	},
+		return this.prompt(prompts).then(props => {
+			this.props = extend(this.props, props);
+		});
+	}
 
 	writing() {
 		const html = this.fs.read(this.templatePath('graphic.html'));
@@ -79,4 +76,4 @@ module.exports = Generator.extend({
 		// Let's extend package.json so we're not overwriting user previous fields
 		this.fs.writeJSON(this.destinationPath('package.json'), currentPkg);
 	}
-});
+};

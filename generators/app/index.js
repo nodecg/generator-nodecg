@@ -10,8 +10,10 @@ const mkdirp = require('mkdirp');
 const githubUsername = require('github-username');
 const parseAuthor = require('parse-author');
 
-module.exports = Generator.extend({
-	initializing() {
+module.exports = class extends Generator {
+	constructor(args, opts) {
+		super(args, opts);
+
 		// Have Yeoman greet the user.
 		this.log(yosay('Welcome to the ' + chalk.red('NodeCG bundle') + ' generator!'));
 
@@ -35,98 +37,90 @@ module.exports = Generator.extend({
 			this.props.authorEmail = info.email;
 			this.props.authorUrl = info.url;
 		}
-	},
+	}
 
-	prompting: {
-		askFor() {
-			const done = this.async();
+	prompting() {
+		const prompts = [{
+			name: 'name',
+			message: 'Your bundle Name',
+			default: _.kebabCase(path.basename(process.cwd())),
+			filter: _.kebabCase,
+			validate(str) {
+				return str.length > 0;
+			},
+			when: !this.props.name
+		}, {
+			name: 'description',
+			message: 'Description',
+			when: !this.props.description
+		}, {
+			name: 'homepage',
+			message: 'Project homepage url',
+			when: !this.props.homepage
+		}, {
+			name: 'authorName',
+			message: 'Author\'s Name',
+			when: !this.props.authorName,
+			default: this.user.git.name(),
+			store: true
+		}, {
+			name: 'authorEmail',
+			message: 'Author\'s Email',
+			when: !this.props.authorEmail,
+			default: this.user.git.email(),
+			store: true
+		}, {
+			name: 'authorUrl',
+			message: 'Author\'s Homepage',
+			when: !this.props.authorUrl,
+			store: true
+		}, {
+			name: 'keywords',
+			message: 'Package keywords (comma to split)',
+			when: !this.pkg.keywords,
+			filter(words) {
+				return words.split(/\s*,\s*/g);
+			}
+		}, {
+			name: 'compatibleRange',
+			message: 'What semver range of NodeCG versions is this bundle compatible with?',
+			type: 'input',
+			default: '~0.9.0'
+		}, {
+			name: 'dashboardPanel',
+			message: 'Would you like to make a dashboard panel for your bundle?',
+			type: 'confirm'
+		}, {
+			name: 'graphic',
+			message: 'Would you like to make a graphic for your bundle?',
+			type: 'confirm'
+		}, {
+			name: 'extension',
+			message: 'Would you like to add an extension to your bundle?',
+			type: 'confirm'
+		}];
 
-			const prompts = [{
-				name: 'name',
-				message: 'Your bundle Name',
-				default: _.kebabCase(path.basename(process.cwd())),
-				filter: _.kebabCase,
-				validate(str) {
-					return str.length > 0;
-				},
-				when: !this.props.name
-			}, {
-				name: 'description',
-				message: 'Description',
-				when: !this.props.description
-			}, {
-				name: 'homepage',
-				message: 'Project homepage url',
-				when: !this.props.homepage
-			}, {
-				name: 'authorName',
-				message: 'Author\'s Name',
-				when: !this.props.authorName,
-				default: this.user.git.name(),
-				store: true
-			}, {
-				name: 'authorEmail',
-				message: 'Author\'s Email',
-				when: !this.props.authorEmail,
-				default: this.user.git.email(),
-				store: true
-			}, {
-				name: 'authorUrl',
-				message: 'Author\'s Homepage',
-				when: !this.props.authorUrl,
-				store: true
-			}, {
-				name: 'keywords',
-				message: 'Package keywords (comma to split)',
-				when: !this.pkg.keywords,
-				filter(words) {
-					return words.split(/\s*,\s*/g);
-				}
-			}, {
-				name: 'compatibleRange',
-				message: 'What semver range of NodeCG versions is this bundle compatible with?',
-				type: 'input',
-				default: '~0.9.0'
-			}, {
-				name: 'dashboardPanel',
-				message: 'Would you like to make a dashboard panel for your bundle?',
-				type: 'confirm'
-			}, {
-				name: 'graphic',
-				message: 'Would you like to make a graphic for your bundle?',
-				type: 'confirm'
-			}, {
-				name: 'extension',
-				message: 'Would you like to add an extension to your bundle?',
-				type: 'confirm'
-			}];
+		return this.prompt(prompts).then(props => {
+			this.props = extend(this.props, props);
+		});
+	}
 
-			this.prompt(prompts).then(props => {
-				this.props = extend(this.props, props);
-				done();
+	askForGithubAccount() {
+		let username = '';
+		return githubUsername(this.props.authorEmail).then(un => {
+			username = un;
+		}).catch(() => {
+			// Do nothing.
+		}).then(() => {
+			return this.prompt({
+				name: 'githubAccount',
+				message: 'GitHub username or organization',
+				default: username
 			});
-		},
-
-		askForGithubAccount() {
-			const done = this.async();
-
-			let username = '';
-			githubUsername(this.props.authorEmail).then(un => {
-				username = un;
-			}).catch(() => {
-				// Do nothing.
-			}).then(() => {
-				return this.prompt({
-					name: 'githubAccount',
-					message: 'GitHub username or organization',
-					default: username
-				});
-			}).then(prompt => {
-				this.props.githubAccount = prompt.githubAccount;
-				done();
-			});
-		}
-	},
+		}).then(prompt => {
+			this.props.githubAccount = prompt.githubAccount;
+		});
+	}
 
 	writing() {
 		// Re-read the content at this point because a composed generator might modify it.
@@ -178,7 +172,7 @@ module.exports = Generator.extend({
 
 		// Replace the .gitignore from node:git with our own.
 		this.fs.write(this.destinationPath('.gitignore'), 'node_modules\ncoverage\nbower_components');
-	},
+	}
 
 	default() {
 		if (path.basename(this.destinationPath()) !== this.props.name) {
@@ -215,4 +209,4 @@ module.exports = Generator.extend({
 			this.composeWith(require.resolve('./../extension'));
 		}
 	}
-});
+};
