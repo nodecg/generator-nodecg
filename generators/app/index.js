@@ -5,7 +5,6 @@ const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
 const _ = require('lodash');
-const askName = require('inquirer-npm-name');
 const extend = require('deep-extend');
 const mkdirp = require('mkdirp');
 const githubUsername = require('github-username');
@@ -39,24 +38,19 @@ module.exports = Generator.extend({
 	},
 
 	prompting: {
-		askForModuleName() {
-			return askName({
+		askFor() {
+			const done = this.async();
+
+			const prompts = [{
 				name: 'name',
 				message: 'Your bundle Name',
 				default: _.kebabCase(path.basename(process.cwd())),
 				filter: _.kebabCase,
 				validate(str) {
 					return str.length > 0;
-				}
-			}, this).then(({name}) => {
-				this.props.name = name;
-			});
-		},
-
-		askFor() {
-			const done = this.async();
-
-			const prompts = [{
+				},
+				when: !this.props.name
+			}, {
 				name: 'description',
 				message: 'Description',
 				when: !this.props.description
