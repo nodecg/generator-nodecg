@@ -32,7 +32,6 @@
     "yosay": "^2.0.0"
   },
   "devDependencies": {
-    "coveralls": "^2.11.6",
     "eslint-config-xo": "^0.18.0",
     "gulp": "^3.9.0",
     "gulp-eslint": "^4.0.0",
@@ -53,7 +52,7 @@
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf coverage"
+    "report-coverage": "codecov"
   },
   "license": "MIT"
 }
