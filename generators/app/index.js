@@ -116,19 +116,20 @@ module.exports = Generator.extend({
 		askForGithubAccount() {
 			const done = this.async();
 
-			githubUsername(this.props.authorEmail, (err, username) => {
-				if (err) {
-					username = username || '';
-				}
-
-				this.prompt({
+			let username = '';
+			githubUsername(this.props.authorEmail).then(un => {
+				username = un;
+			}).catch(() => {
+				// Do nothing.
+			}).then(() => {
+				return this.prompt({
 					name: 'githubAccount',
 					message: 'GitHub username or organization',
 					default: username
-				}).then(prompt => {
-					this.props.githubAccount = prompt.githubAccount;
-					done();
 				});
+			}).then(prompt => {
+				this.props.githubAccount = prompt.githubAccount;
+				done();
 			});
 		}
 	},

@@ -23,7 +23,7 @@
     "generator-license": "^5.0.0",
     "generator-node": "^2.0.0",
     "git-config": "0.0.7",
-    "github-username": "^4.0.0",
+    "github-username": "^4.1.0",
     "inquirer-npm-name": "^2.0.0",
     "lodash": "^4.10.0",
     "mkdirp": "^0.5.1",
@@ -32,9 +32,9 @@
     "yosay": "^2.0.0"
   },
   "devDependencies": {
-    "eslint-config-xo": "^0.18.0",
+    "eslint-config-xo": "^0.23.0",
     "gulp": "^3.9.0",
-    "gulp-eslint": "^4.0.0",
+    "gulp-eslint": "^5.0.0",
     "gulp-exclude-gitignore": "^1.0.0",
     "gulp-filter": "^5.0.0",
     "gulp-istanbul": "^1.0.0",

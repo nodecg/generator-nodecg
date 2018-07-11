@@ -18,8 +18,8 @@ describe('nodecg:app', () => {
 			});
 		});
 
-		mockery.registerMock('github-username', (name, cb) => {
-			cb(null, 'unicornUser');
+		mockery.registerMock('github-username', () => {
+			return Promise.resolve('unicornUser');
 		});
 
 		mockery.registerMock(
