@@ -36,17 +36,28 @@ gulp.task('pre-test', () => {
 
 gulp.task('test', gulp.series('pre-test', function testActual(cb) {
 	let mochaErr;
+	let callbackCalled = false;
 
 	gulp.src('test/**/*.js')
 		.pipe(plumber())
 		.pipe(mocha({reporter: 'spec'}))
 		.on('error', err => {
 			mochaErr = err;
+			callCallback();
 		})
 		.pipe(istanbul.writeReports())
 		.on('end', () => {
-			cb(mochaErr);
+			callCallback();
 		});
+
+	function callCallback() {
+		if (callbackCalled) {
+			return;
+		}
+
+		callbackCalled = true;
+		cb(mochaErr);
+	}
 }));
 
 gulp.task('watch', () => {
