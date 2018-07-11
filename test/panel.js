@@ -34,6 +34,54 @@ describe('nodecg:panel', () => {
 		});
 	});
 
+	describe('specific features', () => {
+		it('supports fullbleed panels', done => {
+			helpers.run(path.join(__dirname, '../generators/panel'))
+				.withPrompts({
+					name: 'test-panel',
+					fullbleed: true
+				})
+				.on('end', () => {
+					assert.jsonFileContent('package.json', {
+						nodecg: {
+							dashboardPanels: [{
+								name: 'test-panel',
+								title: 'Test Panel',
+								file: 'test-panel.html',
+								headerColor: '#9f9bbd',
+								fullbleed: true
+							}]
+						}
+					});
+					done();
+				});
+		});
+
+		it('supports placing panels in custom workspaces', done => {
+			helpers.run(path.join(__dirname, '../generators/panel'))
+				.withPrompts({
+					name: 'test-panel',
+					workspace: true,
+					workspaceName: 'custom'
+				})
+				.on('end', () => {
+					assert.jsonFileContent('package.json', {
+						nodecg: {
+							dashboardPanels: [{
+								name: 'test-panel',
+								title: 'Test Panel',
+								file: 'test-panel.html',
+								headerColor: '#9f9bbd',
+								width: 2,
+								workspace: 'custom'
+							}]
+						}
+					});
+					done();
+				});
+		});
+	});
+
 	describe('running on existing project', () => {
 		before(done => {
 			this.pkg = {
