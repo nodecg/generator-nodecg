@@ -141,6 +141,14 @@ module.exports = Generator.extend({
 			file: this.props.name + '.html'
 		};
 
+		if (this.props.fullbleed) {
+			panelProps.fullbleed = true;
+		}
+
+		if (this.props.workspace) {
+			panelProps.workspace = this.props.workspaceName;
+		}
+
 		if (this.props.dialog) {
 			panelProps.dialog = this.props.dialog;
 
