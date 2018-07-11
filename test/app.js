@@ -61,7 +61,6 @@ describe('nodecg:app', () => {
 				version: '0.0.0',
 				description: this.answers.description,
 				homepage: this.answers.homepage,
-				repository: 'nodecg/test-bundle',
 				author: {
 					name: this.answers.authorName,
 					email: this.answers.authorEmail,
