@@ -1,10 +1,8 @@
 # generator-nodecg 
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/nodecg/generator-nodecg.svg)](https://greenkeeper.io/)
 [![NPM version][npm-image]][npm-url] 
 [![Build Status][travis-image]][travis-url] 
-[![Test Coverage][coveralls-image]][coveralls-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
+[![Test Coverage][coverage-image]][coverage-url]
 
 > Yeoman generator for [NodeCG](http://nodecg.com/) bundles
 
@@ -56,7 +54,5 @@ MIT © [Alex Van Camp](http://alexvan.camp)
 [npm-url]: https://npmjs.org/package/generator-nodecg
 [travis-image]: https://travis-ci.org/nodecg/generator-nodecg.svg?branch=master
 [travis-url]: https://travis-ci.org/nodecg/generator-nodecg
-[daviddm-image]: https://david-dm.org/nodecg/generator-nodecg.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/nodecg/generator-nodecg
-[coveralls-image]: https://coveralls.io/repos/github/nodecg/generator-nodecg/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/nodecg/generator-nodecg?branch=master
+[coverage-image]: https://codecov.io/gh/nodecg/generator-nodecg/branch/master/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/nodecg/generator-nodecg
