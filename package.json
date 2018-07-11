@@ -50,7 +50,6 @@
     "url": "https://github.com/nodecg/generator-nodecg.git"
   },
   "scripts": {
-    "prepublish": "gulp prepublish",
     "test": "gulp",
     "report-coverage": "codecov"
   },
