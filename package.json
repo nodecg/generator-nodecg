@@ -40,7 +40,6 @@
     "gulp-filter": "^5.0.0",
     "gulp-istanbul": "^1.0.0",
     "gulp-mocha": "^4.0.1",
-    "gulp-nsp": "^2.1.0",
     "gulp-plumber": "^1.0.0",
     "mockery": "^2.0.0",
     "npm-name": "^3.0.0",
