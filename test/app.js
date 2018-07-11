@@ -78,7 +78,7 @@ describe('nodecg:app', () => {
 					'nodecg-bundle'
 				],
 				nodecg: {
-					compatibleRange: '~0.9.0'
+					compatibleRange: '^1.0.0'
 				}
 			});
 		});

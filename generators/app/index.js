@@ -85,7 +85,7 @@ module.exports = class extends Generator {
 			name: 'compatibleRange',
 			message: 'What semver range of NodeCG versions is this bundle compatible with?',
 			type: 'input',
-			default: '~0.9.0'
+			default: '^1.0.0'
 		}, {
 			name: 'dashboardPanel',
 			message: 'Would you like to make a dashboard panel for your bundle?',
