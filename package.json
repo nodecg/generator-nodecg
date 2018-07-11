@@ -41,6 +41,7 @@
     "gulp-plumber": "^1.0.0",
     "mockery": "^2.0.0",
     "npm-name": "^3.0.0",
+    "standard-version": "^4.4.0",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.8.0"
   },
@@ -53,7 +54,10 @@
   },
   "scripts": {
     "test": "gulp",
-    "report-coverage": "codecov"
+    "report-coverage": "codecov",
+    "prerelease": "npm t",
+    "release": "standard-version",
+    "postrelease": "npm publish && git push --follow-tags"
   },
   "license": "MIT"
 }
