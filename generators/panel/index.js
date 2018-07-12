@@ -22,7 +22,7 @@ module.exports = class extends Generator {
 			type: 'input',
 			name: 'name',
 			message: 'Your panel\'s name',
-			default: 'Panel',
+			default: 'panel',
 			filter: _.kebabCase,
 			validate(input) {
 				return input && input.length > 0;
