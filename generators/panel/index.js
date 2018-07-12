@@ -35,7 +35,10 @@ module.exports = class extends Generator {
 			type: 'input',
 			name: 'title',
 			message: 'Your panel\'s title',
-			default: _.startCase(this.props.name)
+			default: _.startCase(this.props.name),
+			validate(input) {
+				return input > 0;
+			}
 		}, {
 			type: 'confirm',
 			name: 'fullbleed',
