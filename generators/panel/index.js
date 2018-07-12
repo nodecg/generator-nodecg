@@ -22,7 +22,10 @@ module.exports = class extends Generator {
 			type: 'input',
 			name: 'name',
 			message: 'Your panel\'s name',
-			filter: _.kebabCase
+			filter: _.kebabCase,
+			validate(input) {
+				return input > 0;
+			}
 		}];
 
 		return this.prompt(prompts).then(props => {
