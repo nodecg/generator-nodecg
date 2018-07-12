@@ -25,7 +25,7 @@ module.exports = class extends Generator {
 			default: 'Panel',
 			filter: _.kebabCase,
 			validate(input) {
-				return input > 0;
+				return input && input.length > 0;
 			}
 		}];
 
@@ -41,7 +41,7 @@ module.exports = class extends Generator {
 			message: 'Your panel\'s title',
 			default: _.startCase(this.props.name),
 			validate(input) {
-				return input > 0;
+				return input && input.length > 0;
 			}
 		}, {
 			type: 'confirm',
