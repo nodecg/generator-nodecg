@@ -1,3 +1,19 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/nodecg/generator-nodecg/compare/v1.0.0...v1.0.1) (2018-07-12)
+
+
+### Bug Fixes
+
+* **panel:** force name to have length ([5bfa35c](https://github.com/nodecg/generator-nodecg/commit/5bfa35c))
+* **panel:** force title to have length ([dca5efc](https://github.com/nodecg/generator-nodecg/commit/dca5efc))
+* **panel:** give default name of "Panel" ([299c8c7](https://github.com/nodecg/generator-nodecg/commit/299c8c7))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/nodecg/generator-nodecg/compare/v0.2.0...v1.0.0) (2018-07-11)
 
@@ -25,6 +41,3 @@
 
 <a name="0.1.0"></a>
 # 0.1.0 (2016-02-13)
-
-
-
