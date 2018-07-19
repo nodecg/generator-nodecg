@@ -74,7 +74,7 @@ module.exports = class extends Generator {
 			type: 'input',
 			name: 'headerColor',
 			message: 'What hex color would you like your panel\'s header to be?',
-			default: '#9f9bbd',
+			default: '#525F78',
 			when(answers) {
 				return !answers.dialog;
 			}

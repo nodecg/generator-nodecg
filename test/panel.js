@@ -27,7 +27,7 @@ describe('nodecg:panel', () => {
 						title: 'Test Panel',
 						width: 2,
 						file: 'test-panel.html',
-						headerColor: '#9f9bbd'
+						headerColor: '#525F78'
 					}]
 				}
 			});
@@ -48,7 +48,7 @@ describe('nodecg:panel', () => {
 								name: 'test-panel',
 								title: 'Test Panel',
 								file: 'test-panel.html',
-								headerColor: '#9f9bbd',
+								headerColor: '#525F78',
 								fullbleed: true
 							}]
 						}
@@ -71,7 +71,7 @@ describe('nodecg:panel', () => {
 								name: 'test-panel',
 								title: 'Test Panel',
 								file: 'test-panel.html',
-								headerColor: '#9f9bbd',
+								headerColor: '#525F78',
 								width: 2,
 								workspace: 'custom'
 							}]
@@ -119,7 +119,7 @@ describe('nodecg:panel', () => {
 						title: 'Test Panel',
 						width: 2,
 						file: 'test-panel.html',
-						headerColor: '#9f9bbd'
+						headerColor: '#525F78'
 					}]
 				}
 			}, this.pkg);
