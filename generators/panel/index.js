@@ -51,7 +51,7 @@ module.exports = class extends Generator {
 		}, {
 			type: 'input',
 			name: 'width',
-			message: 'How many width units (1-8) should your panel be?',
+			message: 'How many width units (1-8) should your panel be? (Actual size in px: [144*n - 16] with n being the entered width unit)',
 			default: 2,
 			when(answers) {
 				return !answers.fullbleed;
