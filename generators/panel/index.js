@@ -51,8 +51,7 @@ module.exports = class extends Generator {
 		}, {
 			type: 'input',
 			name: 'width',
-			message: 'How many width units (1-8) should your panel be? (Actual size in px: 128 + 144(n-1) with n being the selected width unit)',
-',
+			message: 'How many width units (1-8) should your panel be? (Actual size in px: [144*n - 16] with n being the entered width unit)',
 			default: 2,
 			when(answers) {
 				return !answers.fullbleed;
@@ -75,7 +74,7 @@ module.exports = class extends Generator {
 			type: 'input',
 			name: 'headerColor',
 			message: 'What hex color would you like your panel\'s header to be?',
-			default: '#9f9bbd',
+			default: '#525F78',
 			when(answers) {
 				return !answers.dialog;
 			}
