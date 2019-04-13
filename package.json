@@ -21,7 +21,7 @@
     "chalk": "^2.0.0",
     "deep-extend": "^0.5.0",
     "generator-license": "^5.0.0",
-    "generator-node": "^2.5.0",
+    "generator-node": "^2.6.0",
     "git-config": "0.0.7",
     "github-username": "^4.1.0",
     "lodash": "^4.17.11",
