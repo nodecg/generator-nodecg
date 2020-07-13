@@ -38,7 +38,7 @@
     "npm-name": "^3.2.0",
     "nyc": "^13.0.1",
     "onchange": "^5.0.2",
-    "standard-version": "^4.4.0",
+    "standard-version": "^8.0.1",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.9.1"
   },
