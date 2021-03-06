@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/nodecg/generator-nodecg/compare/v1.1.0...v1.2.0) (2021-03-06)
+
+
+### Bug Fixes
+
+* **deps:** update packages to fix vulnerabilities ([#66](https://github.com/nodecg/generator-nodecg/issues/66)) ([a2cb9b6](https://github.com/nodecg/generator-nodecg/commit/a2cb9b6))
+
+
+### Features
+
+* Added clarification on Width units ([#63](https://github.com/nodecg/generator-nodecg/issues/63)) ([56056f4](https://github.com/nodecg/generator-nodecg/commit/56056f4))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/nodecg/generator-nodecg/compare/v1.0.3...v1.1.0) (2018-07-19)
 
