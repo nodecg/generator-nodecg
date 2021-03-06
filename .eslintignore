@@ -1,3 +1,12 @@
-node_modules
-bower_components
 /generators/extension/templates/extension.js
+node_modules
+coverage
+.nyc_output
+
+# JetBrains IDEs (IntelliJ/WebStorm)
+/.idea/compiler.xml
+/.idea/encodings.xml
+/.idea/copyright/profiles_settings.xml
+/.idea/workspace.xml
+/.idea/shelf/
+/.idea/codeStyles/codeStyleConfig.xml
