@@ -12,9 +12,13 @@ describe('nodecg:app', () => {
 			warnOnUnregistered: false,
 		});
 
-		mockery.registerMock('npm-name', () => new Promise((resolve) => {
-				resolve(true);
-			}));
+		mockery.registerMock(
+			'npm-name',
+			() =>
+				new Promise((resolve) => {
+					resolve(true);
+				}),
+		);
 
 		mockery.registerMock('github-username', () => Promise.resolve('unicornUser'));
 
@@ -60,7 +64,7 @@ describe('nodecg:app', () => {
 				files: ['dashboard', 'graphics', 'extension.js', 'extension'],
 				keywords: ['foo', 'bar', 'nodecg-bundle'],
 				nodecg: {
-					compatibleRange: '^1.1.1',
+					compatibleRange: '^2.0.0',
 				},
 			});
 		});

@@ -56,7 +56,7 @@
     "fix": "npm-run-all -s fix:*",
     "fix:prettier": "prettier --write \"**/*.{json,md,yml,ts,tsx,js,jsx}\"",
     "fix:eslint": "npm run lint:eslint -- --fix",
-    "test": "npm run static && nyc --reporter=lcov mocha",
+    "test": "npm run lint && nyc --reporter=lcov mocha",
     "watch": "onchange --initial generators/**/*.js test/** -- nyc mocha",
     "report-coverage": "codecov",
     "prerelease": "npm t",
