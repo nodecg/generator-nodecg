@@ -1,13 +1,12 @@
-'use strict';
-const _ = require('lodash');
-const path = require('path');
-const assert = require('yeoman-assert');
-const helpers = require('yeoman-test');
+import _ from 'lodash';
+import path from 'path';
+import assert from 'yeoman-assert';
+import helpers from 'yeoman-test';
 
 describe('nodecg:graphic', () => {
 	describe('running on new project', () => {
 		before((done) => {
-			helpers
+			void helpers
 				.run(path.join(__dirname, '../generators/graphic'))
 				.withPrompts({
 					file: 'index.html',
@@ -15,6 +14,7 @@ describe('nodecg:graphic', () => {
 					height: 720,
 					singleInstance: false,
 				})
+				.on('error', done)
 				.on('end', done);
 		});
 
@@ -39,7 +39,7 @@ describe('nodecg:graphic', () => {
 	});
 
 	describe('running on existing project', () => {
-		before((done) => {
+		before(function (done) {
 			this.pkg = {
 				name: 'test-bundle',
 				version: '1.0.34',
@@ -53,7 +53,7 @@ describe('nodecg:graphic', () => {
 					compatibleRange: '~0.7.0',
 				},
 			};
-			helpers
+			void helpers
 				.run(path.join(__dirname, '../generators/graphic'))
 				.withPrompts({
 					file: 'index.html',
@@ -61,10 +61,11 @@ describe('nodecg:graphic', () => {
 					height: 720,
 					singleInstance: false,
 				})
-				.on('ready', (gen) => {
+				.on('ready', (gen: any) => {
 					gen.fs.writeJSON(gen.destinationPath('package.json'), this.pkg);
 					gen.fs.write(gen.destinationPath('graphics/index.html'), 'foo');
 				})
+				.on('error', done)
 				.on('end', done);
 		});
 

@@ -1,27 +1,23 @@
-'use strict';
-const _ = require('lodash');
-const mockery = require('mockery');
-const path = require('path');
-const assert = require('yeoman-assert');
-const helpers = require('yeoman-test');
+import _ from 'lodash';
+import mockery from 'mockery';
+import path from 'path';
+import assert from 'yeoman-assert';
+import helpers from 'yeoman-test';
 
 describe('nodecg:app', () => {
-	before(() => {
+	before(async () => {
 		mockery.enable({
 			warnOnReplace: false,
 			warnOnUnregistered: false,
 		});
-
 		mockery.registerMock(
 			'npm-name',
-			() =>
+			async () =>
 				new Promise((resolve) => {
 					resolve(true);
 				}),
 		);
-
-		mockery.registerMock('github-username', () => Promise.resolve('unicornUser'));
-
+		mockery.registerMock('github-username', async () => Promise.resolve('unicornUser'));
 		mockery.registerMock(require.resolve('generator-license'), helpers.createDummyGenerator());
 	});
 
@@ -42,16 +38,20 @@ describe('nodecg:app', () => {
 				authorUrl: 'http://alexvan.camp/',
 				keywords: ['foo', 'bar'],
 			};
-			helpers.run(path.join(__dirname, '../generators/app')).withPrompts(this.answers).on('end', done);
+			void helpers
+				.run(path.join(__dirname, '../generators/app'))
+				.withPrompts(this.answers)
+				.on('error', done)
+				.on('end', done);
 		});
 
 		it('creates files', () => {
-			assert.file(['README.md']);
+			assert.file(['test-bundle/README.md']);
 		});
 
 		it('creates package.json', function () {
-			assert.file('package.json');
-			assert.jsonFileContent('package.json', {
+			assert.file('test-bundle/package.json');
+			assert.jsonFileContent('test-bundle/package.json', {
 				name: 'test-bundle',
 				version: '0.0.0',
 				description: this.answers.description,
@@ -70,8 +70,11 @@ describe('nodecg:app', () => {
 		});
 
 		it('creates and fill contents in README.md', () => {
-			assert.file('README.md');
-			assert.fileContent('README.md', 'test-bundle is a [NodeCG](http://github.com/nodecg/nodecg) bundle.');
+			assert.file('test-bundle/README.md');
+			assert.fileContent(
+				'test-bundle/README.md',
+				'test-bundle is a [NodeCG](http://github.com/nodecg/nodecg) bundle.',
+			);
 		});
 	});
 
@@ -89,25 +92,26 @@ describe('nodecg:app', () => {
 					compatibleRange: '~0.7.0',
 				},
 			};
-			helpers
+			void helpers
 				.run(path.join(__dirname, '../generators/app'))
 				.withPrompts({
 					name: 'test-bundle',
 				})
-				.on('ready', (gen) => {
+				.on('ready', (gen: any) => {
 					gen.fs.writeJSON(gen.destinationPath('test-bundle/package.json'), this.pkg);
 					gen.fs.write(gen.destinationPath('test-bundle/README.md'), 'foo');
 				})
+				.on('error', done)
 				.on('end', done);
 		});
 
 		it('extends package.json keys with missing ones', function () {
 			const pkg = _.extend({ name: 'test-bundle' }, this.pkg);
-			assert.jsonFileContent('package.json', pkg);
+			assert.jsonFileContent('test-bundle/package.json', pkg);
 		});
 
 		it('does not overwrite previous README.md', () => {
-			assert.fileContent('README.md', 'foo');
+			assert.fileContent('test-bundle/README.md', 'foo');
 		});
 	});
 });

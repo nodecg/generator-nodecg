@@ -1,15 +1,15 @@
-'use strict';
-const _ = require('lodash');
-const path = require('path');
-const assert = require('yeoman-assert');
-const helpers = require('yeoman-test');
+import _ from 'lodash';
+import path from 'path';
+import assert from 'yeoman-assert';
+import helpers from 'yeoman-test';
 
 describe('nodecg:panel', () => {
 	describe('running on new project', () => {
 		before((done) => {
-			helpers
+			void helpers
 				.run(path.join(__dirname, '../generators/panel'))
 				.withPrompts({ name: 'test-panel' })
+				.on('error', done)
 				.on('end', done);
 		});
 
@@ -37,12 +37,13 @@ describe('nodecg:panel', () => {
 
 	describe('specific features', () => {
 		it('supports fullbleed panels', (done) => {
-			helpers
+			void helpers
 				.run(path.join(__dirname, '../generators/panel'))
 				.withPrompts({
 					name: 'test-panel',
 					fullbleed: true,
 				})
+				.on('error', done)
 				.on('end', () => {
 					assert.jsonFileContent('package.json', {
 						nodecg: {
@@ -62,13 +63,14 @@ describe('nodecg:panel', () => {
 		});
 
 		it('supports placing panels in custom workspaces', (done) => {
-			helpers
+			void helpers
 				.run(path.join(__dirname, '../generators/panel'))
 				.withPrompts({
 					name: 'test-panel',
 					workspace: true,
 					workspaceName: 'custom',
 				})
+				.on('error', done)
 				.on('end', () => {
 					assert.jsonFileContent('package.json', {
 						nodecg: {
@@ -90,7 +92,7 @@ describe('nodecg:panel', () => {
 	});
 
 	describe('running on existing project', () => {
-		before((done) => {
+		before(function (done) {
 			this.pkg = {
 				name: 'test-bundle',
 				version: '1.0.34',
@@ -104,13 +106,14 @@ describe('nodecg:panel', () => {
 					compatibleRange: '~0.7.0',
 				},
 			};
-			helpers
+			void helpers
 				.run(path.join(__dirname, '../generators/panel'))
 				.withPrompts({ name: 'test-panel' })
-				.on('ready', (gen) => {
+				.on('ready', (gen: any) => {
 					gen.fs.writeJSON(gen.destinationPath('package.json'), this.pkg);
 					gen.fs.write(gen.destinationPath('dashboard/test-panel.html'), 'foo');
 				})
+				.on('error', done)
 				.on('end', done);
 		});
 

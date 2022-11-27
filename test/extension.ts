@@ -1,15 +1,15 @@
-'use strict';
-const path = require('path');
-const assert = require('yeoman-assert');
-const helpers = require('yeoman-test');
+import path from 'path';
+import assert from 'yeoman-assert';
+import helpers from 'yeoman-test';
 
 describe('nodecg:extension', () => {
 	context('running on new project', () => {
 		context('in file mode', () => {
 			before((done) => {
-				helpers
+				void helpers
 					.run(path.join(__dirname, '../generators/extension'))
 					.withPrompts({ type: 'file' })
+					.on('error', done)
 					.on('end', done);
 			});
 
@@ -20,9 +20,10 @@ describe('nodecg:extension', () => {
 
 		context('in folder mode', () => {
 			before((done) => {
-				helpers
+				void helpers
 					.run(path.join(__dirname, '../generators/extension'))
 					.withPrompts({ type: 'folder' })
+					.on('error', done)
 					.on('end', done);
 			});
 
@@ -35,12 +36,13 @@ describe('nodecg:extension', () => {
 	context('running on existing project', () => {
 		context('in file mode', () => {
 			before((done) => {
-				helpers
+				void helpers
 					.run(path.join(__dirname, '../generators/extension'))
 					.withPrompts({ type: 'file' })
-					.on('ready', (gen) => {
+					.on('ready', (gen: any) => {
 						gen.fs.write(gen.destinationPath('extension.js'), 'foo');
 					})
+					.on('error', done)
 					.on('end', done);
 			});
 
@@ -51,12 +53,13 @@ describe('nodecg:extension', () => {
 
 		context('in folder mode', () => {
 			before((done) => {
-				helpers
+				void helpers
 					.run(path.join(__dirname, '../generators/extension'))
 					.withPrompts({ type: 'folder' })
-					.on('ready', (gen) => {
+					.on('ready', (gen: any) => {
 						gen.fs.write(gen.destinationPath('extension/index.js'), 'foo');
 					})
+					.on('error', done)
 					.on('end', done);
 			});
 

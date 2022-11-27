@@ -1,0 +1,4 @@
+{
+	"extends": "./tsconfig.build.json",
+	"include": ["src/**/*.ts", "!src/**/tempates/**/*.ts", "test/**/*.ts"]
+}

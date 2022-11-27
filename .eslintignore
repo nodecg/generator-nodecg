@@ -1,4 +1,6 @@
-/generators/extension/templates/extension.js
+/generators
+/src/generators/**/templates
+/scripts
 node_modules
 coverage
 .nyc_output

@@ -2,19 +2,75 @@ name: CI
 
 on:
   push:
+    branches:
+      - master
   pull_request:
+    branches:
+      - master
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        node-version: ['16']
-        os: ['ubuntu-latest', 'windows-latest']
-    runs-on: ${{ matrix.os }}
+  lint:
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm test
+          node-version: '16'
+
+      - name: Restore npm/yarn dependency cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: npm-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn --ignore-engines --frozen-lockfile --network-timeout 1000000
+
+      - name: Lint
+        run: |
+          npm run lint
+
+  build-test:
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{matrix.os}}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+
+      - name: Restore npm/yarn dependency cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+          key: npm-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn --ignore-engines --frozen-lockfile --network-timeout 1000000
+
+      - name: Build
+        run: |
+          npm run build
+
+      - name: Test
+        run: |
+          npm run test
+
+      - name: Send code coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.lcov
+        # Only report once
+        if: runner.os == 'Linux' && matrix.node-version == '16.x'

@@ -1,3 +1,9 @@
 {
-	"extends": ["xo", "prettier"]
+	"extends": ["xo", "xo-typescript", "prettier"],
+	"rules": {
+		"@typescript-eslint/no-unsafe-return": 0, // too much of a hassle
+		"@typescript-eslint/no-unsafe-call": 0, // too much of a hassle
+		"@typescript-eslint/no-unsafe-assignment": 0, // too much of a hassle
+		"max-nested-callbacks": 0 // doesn't play well with mocha
+	}
 }
