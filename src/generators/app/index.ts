@@ -24,6 +24,7 @@ module.exports = class extends Generator {
 		dashboardPanel?: boolean;
 		graphic?: boolean;
 		extension?: boolean;
+		typescript?: boolean;
 	};
 
 	private readonly pkg: PackageJson.PackageJsonStandard;
@@ -127,6 +128,11 @@ module.exports = class extends Generator {
 				message: 'Would you like to add an extension to your bundle?',
 				type: 'confirm',
 			},
+			{
+				name: 'typescript',
+				message: 'Would you like to generate this bundle in TypeScript?',
+				type: 'confirm',
+			},
 		];
 
 		const props = await this.prompt(prompts);
@@ -148,7 +154,7 @@ module.exports = class extends Generator {
 		this.props.githubAccount = prompt.githubAccount;
 	}
 
-	writing() {
+	async writing() {
 		// Re-read the content at this point because a composed generator might modify it.
 		const currentPkg: PackageJson.PackageJsonStandard = this.fs.readJSON(
 			this.destinationPath('package.json'),
@@ -182,6 +188,41 @@ module.exports = class extends Generator {
 
 		// Let's extend package.json so we're not overwriting user previous fields
 		this.fs.writeJSON(this.destinationPath('package.json'), pkg);
+
+		// Write tsconfigs and typescript deps, if appropriate
+		if (this.props.typescript) {
+			if (!this.fs.exists(this.destinationPath('tsconfig.json'))) {
+				this.fs.copy(this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'));
+			}
+
+			if (!this.fs.exists(this.destinationPath('tsconfig.build.json'))) {
+				this.fs.copy(this.templatePath('tsconfig.build.json'), this.destinationPath('tsconfig.build.json'));
+			}
+
+			if (!this.fs.exists(this.destinationPath('src/dashboard/tsconfig.json'))) {
+				this.fs.copy(
+					this.templatePath('tsconfig.dashboard.json'),
+					this.destinationPath('src/dashboard/tsconfig.json'),
+				);
+			}
+
+			if (!this.fs.exists(this.destinationPath('src/graphics/tsconfig.json'))) {
+				this.fs.copy(
+					this.templatePath('tsconfig.graphics.json'),
+					this.destinationPath('src/graphics/tsconfig.json'),
+				);
+			}
+
+			if (!this.fs.exists(this.destinationPath('src/extension/tsconfig.json'))) {
+				this.fs.copy(
+					this.templatePath('tsconfig.extension.json'),
+					this.destinationPath('src/extension/tsconfig.json'),
+				);
+			}
+
+			await this.addDependencies(['ts-node']);
+			await this.addDevDependencies(['typescript', '@types/node']);
+		}
 
 		// Populate and write the readme template
 		if (!this.fs.exists(this.destinationPath('README.md'))) {
@@ -227,7 +268,9 @@ module.exports = class extends Generator {
 		}
 
 		if (this.props.extension) {
-			this.composeWith(require.resolve('./../extension'));
+			this.composeWith(require.resolve('./../extension'), {
+				typescript: this.props.typescript,
+			});
 		}
 	}
 };

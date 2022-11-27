@@ -5,10 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const yeoman_generator_1 = __importDefault(require("yeoman-generator"));
 const deep_extend_1 = __importDefault(require("deep-extend"));
+const path_1 = __importDefault(require("path"));
 module.exports = class extends yeoman_generator_1.default {
     constructor(args, opts) {
         super(args, opts);
-        this.props = {};
+        this.props = {
+            typescript: opts.typescript,
+        };
     }
     async prompting() {
         const prompts = [
@@ -49,15 +52,33 @@ module.exports = class extends yeoman_generator_1.default {
                 default: false,
             },
         ];
+        // Only prompt for typescript if a parent generator didn't already do so
+        if (typeof this.props.typescript === 'undefined') {
+            prompts.push({
+                name: 'typescript',
+                message: 'Would you like to generate this graphic in TypeScript?',
+                type: 'confirm',
+            });
+        }
         const props = await this.prompt(prompts);
         this.props = (0, deep_extend_1.default)(this.props, props);
     }
     writing() {
         var _a, _b;
-        const html = this.fs.read(this.templatePath('graphic.html'));
-        const graphicFilePath = this.destinationPath(`graphics/${this.props.file}`);
-        if (!this.fs.exists(graphicFilePath)) {
-            this.fs.write(graphicFilePath, html);
+        // Populate and write the graphic template
+        const htmlFileName = this.props.typescript
+            ? `src/graphics/${this.props.file}`
+            : `graphics/${this.props.file}`;
+        if (!this.fs.exists(this.destinationPath(htmlFileName))) {
+            const fileNameNoExt = path_1.default.basename(htmlFileName, path_1.default.extname(this.props.file));
+            const scriptSourceName = this.props.typescript
+                ? `src/graphics/${fileNameNoExt}.ts`
+                : `graphics/${fileNameNoExt}.js`;
+            this.fs.copyTpl(this.templatePath('graphic.html'), this.destinationPath(htmlFileName), {
+                scriptName: `${fileNameNoExt}.js`,
+                sourceName: scriptSourceName,
+            });
+            this.fs.copy(this.templatePath(this.props.typescript ? 'graphic.ts' : 'graphic.js'), this.destinationPath(scriptSourceName));
         }
         const graphicProps = {
             file: this.props.file,

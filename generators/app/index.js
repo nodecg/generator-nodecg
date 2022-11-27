@@ -108,6 +108,11 @@ module.exports = class extends yeoman_generator_1.default {
                 message: 'Would you like to add an extension to your bundle?',
                 type: 'confirm',
             },
+            {
+                name: 'typescript',
+                message: 'Would you like to generate this bundle in TypeScript?',
+                type: 'confirm',
+            },
         ];
         const props = await this.prompt(prompts);
         this.props = (0, deep_extend_1.default)(this.props, props);
@@ -126,7 +131,7 @@ module.exports = class extends yeoman_generator_1.default {
         });
         this.props.githubAccount = prompt.githubAccount;
     }
-    writing() {
+    async writing() {
         // Re-read the content at this point because a composed generator might modify it.
         const currentPkg = this.fs.readJSON(this.destinationPath('package.json'), {});
         const pkg = (0, deep_extend_1.default)({
@@ -151,6 +156,17 @@ module.exports = class extends yeoman_generator_1.default {
         }
         // Let's extend package.json so we're not overwriting user previous fields
         this.fs.writeJSON(this.destinationPath('package.json'), pkg);
+        // Write tsconfigs and typescript deps, if appropriate
+        if (this.props.typescript) {
+            if (!this.fs.exists(this.destinationPath('tsconfig.json'))) {
+                this.fs.copy(this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'));
+            }
+            if (!this.fs.exists(this.destinationPath('tsconfig.build.json'))) {
+                this.fs.copy(this.templatePath('tsconfig.build.json'), this.destinationPath('tsconfig.build.json'));
+            }
+            await this.addDependencies(['ts-node']);
+            await this.addDevDependencies(['typescript', '@types/node']);
+        }
         // Populate and write the readme template
         if (!this.fs.exists(this.destinationPath('README.md'))) {
             this.fs.copyTpl(this.templatePath('README.md'), this.destinationPath('README.md'), {
@@ -186,7 +202,9 @@ module.exports = class extends yeoman_generator_1.default {
             this.composeWith(require.resolve('./../graphic'));
         }
         if (this.props.extension) {
-            this.composeWith(require.resolve('./../extension'));
+            this.composeWith(require.resolve('./../extension'), {
+                typescript: this.props.typescript,
+            });
         }
     }
 };
