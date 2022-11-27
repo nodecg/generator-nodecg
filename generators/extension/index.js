@@ -11,31 +11,38 @@ module.exports = class extends Generator {
 	}
 
 	prompting() {
-		const prompts = [{
-			type: 'list',
-			name: 'type',
-			message: 'How should your extension be organized?',
-			choices: [{
-				name: 'In one file (extension.js)',
-				value: 'file',
-				short: 'file'
-			}, {
-				name: 'In a folder (extension/index.js)',
-				value: 'folder',
-				short: 'folder'
-			}],
-			default: 'file'
-		}];
+		const prompts = [
+			{
+				type: 'list',
+				name: 'type',
+				message: 'How should your extension be organized?',
+				choices: [
+					{
+						name: 'In one file (extension.js)',
+						value: 'file',
+						short: 'file',
+					},
+					{
+						name: 'In a folder (extension/index.js)',
+						value: 'folder',
+						short: 'folder',
+					},
+				],
+				default: 'file',
+			},
+		];
 
-		return this.prompt(prompts).then(props => {
+		return this.prompt(prompts).then((props) => {
 			this.props = extend(this.props, props);
 		});
 	}
 
 	writing() {
 		// If this bundle already has an extension, do nothing.
-		if (this.fs.exists(this.destinationPath('extension.js')) ||
-			this.fs.exists(this.destinationPath('extension/index.js'))) {
+		if (
+			this.fs.exists(this.destinationPath('extension.js')) ||
+			this.fs.exists(this.destinationPath('extension/index.js'))
+		) {
 			return;
 		}
 

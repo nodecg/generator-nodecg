@@ -1,7 +1,7 @@
-# generator-nodecg 
+# generator-nodecg
 
-[![NPM version][npm-image]][npm-url] 
-[![Build Status][travis-image]][travis-url] 
+[![NPM version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
 [![Test Coverage][coverage-image]][coverage-url]
 
 > Yeoman generator for [NodeCG](http://nodecg.com/) bundles
@@ -11,7 +11,7 @@ It can also be used to add a new panel, graphic, or extension in an existing bun
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-nodecg using [npm](https://www.npmjs.com/) 
+First, install [Yeoman](http://yeoman.io) and generator-nodecg using [npm](https://www.npmjs.com/)
 (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
@@ -35,20 +35,19 @@ yo nodecg:extension
 
 ## Getting To Know Yeoman
 
-Yeoman has a heart of gold. He&#39;s a person with feelings and opinions, but he&#39;s very easy to work with. 
-If you think he&#39;s too opinionated, he can be easily convinced. 
+Yeoman has a heart of gold. He&#39;s a person with feelings and opinions, but he&#39;s very easy to work with.
+If you think he&#39;s too opinionated, he can be easily convinced.
 Feel free to [learn more about him](http://yeoman.io/).
 
 ## Special Thanks
 
 Significant portions of this generator are based on [generator-node](https://github.com/yeoman/generator-node).
-We thank the developers of [generator-node](https://github.com/yeoman/generator-node) and 
+We thank the developers of [generator-node](https://github.com/yeoman/generator-node) and
 [Yeoman](http://yeoman.io/) for their years of hard work.
 
 ## License
 
 MIT © [Alex Van Camp](http://alexvan.camp)
-
 
 [npm-image]: https://badge.fury.io/js/generator-nodecg.svg
 [npm-url]: https://npmjs.org/package/generator-nodecg

@@ -9,23 +9,16 @@ describe('nodecg:app', () => {
 	before(() => {
 		mockery.enable({
 			warnOnReplace: false,
-			warnOnUnregistered: false
+			warnOnUnregistered: false,
 		});
 
-		mockery.registerMock('npm-name', () => {
-			return new Promise(resolve => {
+		mockery.registerMock('npm-name', () => new Promise((resolve) => {
 				resolve(true);
-			});
-		});
+			}));
 
-		mockery.registerMock('github-username', () => {
-			return Promise.resolve('unicornUser');
-		});
+		mockery.registerMock('github-username', () => Promise.resolve('unicornUser'));
 
-		mockery.registerMock(
-			require.resolve('generator-license'),
-			helpers.createDummyGenerator()
-		);
+		mockery.registerMock(require.resolve('generator-license'), helpers.createDummyGenerator());
 	});
 
 	after(() => {
@@ -43,11 +36,9 @@ describe('nodecg:app', () => {
 				authorName: 'Alex Van Camp',
 				authorEmail: 'email@alexvan.camp',
 				authorUrl: 'http://alexvan.camp/',
-				keywords: ['foo', 'bar']
+				keywords: ['foo', 'bar'],
 			};
-			helpers.run(path.join(__dirname, '../generators/app'))
-				.withPrompts(this.answers)
-				.on('end', done);
+			helpers.run(path.join(__dirname, '../generators/app')).withPrompts(this.answers).on('end', done);
 		});
 
 		it('creates files', () => {
@@ -64,22 +55,13 @@ describe('nodecg:app', () => {
 				author: {
 					name: this.answers.authorName,
 					email: this.answers.authorEmail,
-					url: this.answers.authorUrl
+					url: this.answers.authorUrl,
 				},
-				files: [
-					'dashboard',
-					'graphics',
-					'extension.js',
-					'extension'
-				],
-				keywords: [
-					'foo',
-					'bar',
-					'nodecg-bundle'
-				],
+				files: ['dashboard', 'graphics', 'extension.js', 'extension'],
+				keywords: ['foo', 'bar', 'nodecg-bundle'],
 				nodecg: {
-					compatibleRange: '^1.1.1'
-				}
+					compatibleRange: '^1.1.1',
+				},
 			});
 		});
 
@@ -97,22 +79,18 @@ describe('nodecg:app', () => {
 				homepage: 'http://nodecg.com',
 				repository: 'nodecg/test-bundle',
 				author: 'Alex Van Camp',
-				files: [
-					'dashboard',
-					'graphics',
-					'extension.js',
-					'extension'
-				],
+				files: ['dashboard', 'graphics', 'extension.js', 'extension'],
 				keywords: ['bar', 'nodecg-bundle'],
 				nodecg: {
-					compatibleRange: '~0.7.0'
-				}
+					compatibleRange: '~0.7.0',
+				},
 			};
-			helpers.run(path.join(__dirname, '../generators/app'))
+			helpers
+				.run(path.join(__dirname, '../generators/app'))
 				.withPrompts({
-					name: 'test-bundle'
+					name: 'test-bundle',
 				})
-				.on('ready', gen => {
+				.on('ready', (gen) => {
 					gen.fs.writeJSON(gen.destinationPath('test-bundle/package.json'), this.pkg);
 					gen.fs.write(gen.destinationPath('test-bundle/README.md'), 'foo');
 				})
@@ -120,7 +98,7 @@ describe('nodecg:app', () => {
 		});
 
 		it('extends package.json keys with missing ones', function () {
-			const pkg = _.extend({name: 'test-bundle'}, this.pkg);
+			const pkg = _.extend({ name: 'test-bundle' }, this.pkg);
 			assert.jsonFileContent('package.json', pkg);
 		});
 

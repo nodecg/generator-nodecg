@@ -6,9 +6,10 @@ const helpers = require('yeoman-test');
 describe('nodecg:extension', () => {
 	context('running on new project', () => {
 		context('in file mode', () => {
-			before(done => {
-				helpers.run(path.join(__dirname, '../generators/extension'))
-					.withPrompts({type: 'file'})
+			before((done) => {
+				helpers
+					.run(path.join(__dirname, '../generators/extension'))
+					.withPrompts({ type: 'file' })
 					.on('end', done);
 			});
 
@@ -18,9 +19,10 @@ describe('nodecg:extension', () => {
 		});
 
 		context('in folder mode', () => {
-			before(done => {
-				helpers.run(path.join(__dirname, '../generators/extension'))
-					.withPrompts({type: 'folder'})
+			before((done) => {
+				helpers
+					.run(path.join(__dirname, '../generators/extension'))
+					.withPrompts({ type: 'folder' })
 					.on('end', done);
 			});
 
@@ -32,10 +34,11 @@ describe('nodecg:extension', () => {
 
 	context('running on existing project', () => {
 		context('in file mode', () => {
-			before(done => {
-				helpers.run(path.join(__dirname, '../generators/extension'))
-					.withPrompts({type: 'file'})
-					.on('ready', gen => {
+			before((done) => {
+				helpers
+					.run(path.join(__dirname, '../generators/extension'))
+					.withPrompts({ type: 'file' })
+					.on('ready', (gen) => {
 						gen.fs.write(gen.destinationPath('extension.js'), 'foo');
 					})
 					.on('end', done);
@@ -47,10 +50,11 @@ describe('nodecg:extension', () => {
 		});
 
 		context('in folder mode', () => {
-			before(done => {
-				helpers.run(path.join(__dirname, '../generators/extension'))
-					.withPrompts({type: 'folder'})
-					.on('ready', gen => {
+			before((done) => {
+				helpers
+					.run(path.join(__dirname, '../generators/extension'))
+					.withPrompts({ type: 'folder' })
+					.on('ready', (gen) => {
 						gen.fs.write(gen.destinationPath('extension/index.js'), 'foo');
 					})
 					.on('end', done);

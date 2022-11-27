@@ -11,41 +11,46 @@ module.exports = class extends Generator {
 	}
 
 	prompting() {
-		const prompts = [{
-			type: 'input',
-			name: 'file',
-			message: 'Your graphic\'s file',
-			default: 'index.html'
-		}, {
-			type: 'input',
-			name: 'width',
-			message: 'Your graphic\'s width (in pixels)',
-			default: 1280,
-			filter(input) {
-				return parseInt(input, 10);
+		const prompts = [
+			{
+				type: 'input',
+				name: 'file',
+				message: "Your graphic's file",
+				default: 'index.html',
 			},
-			validate(input) {
-				return input > 0;
-			}
-		}, {
-			type: 'input',
-			name: 'height',
-			message: 'Your graphic\'s height (in pixels)',
-			default: 720,
-			filter(input) {
-				return parseInt(input, 10);
+			{
+				type: 'input',
+				name: 'width',
+				message: "Your graphic's width (in pixels)",
+				default: 1280,
+				filter(input) {
+					return parseInt(input, 10);
+				},
+				validate(input) {
+					return input > 0;
+				},
 			},
-			validate(input) {
-				return input > 0;
-			}
-		}, {
-			type: 'confirm',
-			name: 'singleInstance',
-			message: 'Is this a "single instance" graphic?',
-			default: false
-		}];
+			{
+				type: 'input',
+				name: 'height',
+				message: "Your graphic's height (in pixels)",
+				default: 720,
+				filter(input) {
+					return parseInt(input, 10);
+				},
+				validate(input) {
+					return input > 0;
+				},
+			},
+			{
+				type: 'confirm',
+				name: 'singleInstance',
+				message: 'Is this a "single instance" graphic?',
+				default: false,
+			},
+		];
 
-		return this.prompt(prompts).then(props => {
+		return this.prompt(prompts).then((props) => {
 			this.props = extend(this.props, props);
 		});
 	}
@@ -60,7 +65,7 @@ module.exports = class extends Generator {
 		const graphicProps = {
 			file: this.props.file,
 			width: this.props.width,
-			height: this.props.height
+			height: this.props.height,
 		};
 
 		if (this.props.singleInstance) {
