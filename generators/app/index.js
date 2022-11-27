@@ -93,7 +93,7 @@ module.exports = class extends Generator {
 				name: 'compatibleRange',
 				message: 'What semver range of NodeCG versions is this bundle compatible with?',
 				type: 'input',
-				default: '^1.1.1',
+				default: '^2.0.0',
 			},
 			{
 				name: 'dashboardPanel',
@@ -126,11 +126,13 @@ module.exports = class extends Generator {
 			.catch(() => {
 				// Do nothing.
 			})
-			.then(() => this.prompt({
+			.then(() =>
+				this.prompt({
 					name: 'githubAccount',
 					message: 'GitHub username or organization',
 					default: username,
-				}))
+				}),
+			)
 			.then((prompt) => {
 				this.props.githubAccount = prompt.githubAccount;
 			});
