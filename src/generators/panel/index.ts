@@ -2,6 +2,7 @@ import Generator from 'yeoman-generator';
 import extend from 'deep-extend';
 import _ from 'lodash';
 import type { Manifest, UnparsedPanel } from '../../types/manifest';
+import path from 'path';
 
 module.exports = class extends Generator {
 	public props: {
@@ -17,12 +18,15 @@ module.exports = class extends Generator {
 		dialogConfirmBtnLabel?: string;
 		dialogDismissBtnLabel?: string;
 		headerColor?: string;
+		typescript?: boolean;
 	};
 
 	constructor(args: string | string[], opts: Generator.GeneratorOptions) {
 		super(args, opts);
 
-		this.props = {};
+		this.props = {
+			typescript: opts.typescript,
+		};
 	}
 
 	async prompting() {
@@ -156,15 +160,37 @@ module.exports = class extends Generator {
 			},
 		];
 
+		// Only prompt for typescript if a parent generator didn't already do so
+		if (typeof this.props.typescript === 'undefined') {
+			(prompts as any).push({
+				name: 'typescript',
+				message: 'Would you like to generate this panel in TypeScript?',
+				type: 'confirm',
+			});
+		}
+
 		const props = await this.prompt(prompts);
 		this.props = extend(this.props, props);
 	}
 
 	writing() {
-		const html = this.fs.read(this.templatePath('panel.html'));
-		const panelFilePath = this.destinationPath(`dashboard/${this.props.name!}.html`);
-		if (!this.fs.exists(panelFilePath)) {
-			this.fs.write(panelFilePath, html);
+		// Populate and write the graphic template
+		const htmlFileName = this.props.typescript
+			? `src/dashboard/${this.props.name!}.html`
+			: `dashboard/${this.props.name!}.html`;
+		if (!this.fs.exists(this.destinationPath(htmlFileName))) {
+			const fileNameNoExt = path.basename(htmlFileName, path.extname(htmlFileName));
+			const scriptSourceName = this.props.typescript
+				? `src/dashboard/${fileNameNoExt}.ts`
+				: `dashboard/${fileNameNoExt}.js`;
+			this.fs.copyTpl(this.templatePath('panel.html'), this.destinationPath(htmlFileName), {
+				scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
+				sourceName: scriptSourceName,
+			});
+			this.fs.copy(
+				this.templatePath(this.props.typescript ? 'panel.ts' : 'panel.js'),
+				this.destinationPath(scriptSourceName),
+			);
 		}
 
 		const panelProps: UnparsedPanel = {

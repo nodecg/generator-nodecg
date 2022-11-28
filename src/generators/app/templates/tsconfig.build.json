@@ -3,7 +3,7 @@
 		// Output related
 		"target": "ES2017",
 		"emitDecoratorMetadata": true,
-		"outDir": "./generators",
+		"outDir": "./build",
 		"module": "commonjs",
 
 		// Module resolution
@@ -29,6 +29,5 @@
 		"sourceMap": true,
 		"inlineSourceMap": false
 	},
-	"include": ["src/**/*.ts"],
-	"exclude": ["node_modules", "src/**/templates/**/*.ts"]
+	"include": ["src/**/*.ts", "node_modules/@nodecg/types/augment-window.d.ts"]
 }

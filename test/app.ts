@@ -31,12 +31,13 @@ describe('nodecg:app', () => {
 			this.answers = {
 				name: 'test-bundle',
 				description: 'A NodeCG bundle',
-				homepage: 'http://nodecg.com',
+				homepage: 'http://nodecg.dev',
 				githubAccount: 'nodecg',
 				authorName: 'Alex Van Camp',
 				authorEmail: 'email@alexvan.camp',
 				authorUrl: 'http://alexvan.camp/',
 				keywords: ['foo', 'bar'],
+				typescript: false,
 			};
 			void helpers
 				.run(path.join(__dirname, '../generators/app'))
@@ -83,7 +84,7 @@ describe('nodecg:app', () => {
 			this.pkg = {
 				version: '1.0.34',
 				description: 'lots of fun',
-				homepage: 'http://nodecg.com',
+				homepage: 'http://nodecg.dev',
 				repository: 'nodecg/test-bundle',
 				author: 'Alex Van Camp',
 				files: ['dashboard', 'graphics', 'extension.js', 'extension'],
@@ -96,6 +97,7 @@ describe('nodecg:app', () => {
 				.run(path.join(__dirname, '../generators/app'))
 				.withPrompts({
 					name: 'test-bundle',
+					typescript: false,
 				})
 				.on('ready', (gen: any) => {
 					gen.fs.writeJSON(gen.destinationPath('test-bundle/package.json'), this.pkg);
@@ -112,6 +114,48 @@ describe('nodecg:app', () => {
 
 		it('does not overwrite previous README.md', () => {
 			assert.fileContent('test-bundle/README.md', 'foo');
+		});
+	});
+
+	describe('adding typescript', () => {
+		before(function (done) {
+			this.timeout(10000);
+			this.answers = {
+				name: 'typescript-bundle',
+				typescript: true,
+			};
+			void helpers
+				.run(path.join(__dirname, '../generators/app'))
+				.withPrompts(this.answers)
+				.on('error', done)
+				.on('end', done);
+		});
+
+		it('writes tsconfigs', () => {
+			assert.file('typescript-bundle/tsconfig.json');
+			assert.file('typescript-bundle/tsconfig.build.json');
+			assert.file('typescript-bundle/src/dashboard/tsconfig.json');
+			assert.file('typescript-bundle/src/graphics/tsconfig.json');
+			assert.file('typescript-bundle/src/extension/tsconfig.json');
+		});
+
+		it('writes scripts', () => {
+			assert.file('typescript-bundle/scripts/build.mjs');
+		});
+
+		it('adds dependencies to package.json', () => {
+			assert.fileContent('typescript-bundle/package.json', '"ts-node"');
+			assert.fileContent('typescript-bundle/package.json', '"typescript"');
+			assert.fileContent('typescript-bundle/package.json', '"@types/node"');
+			assert.fileContent('typescript-bundle/package.json', '"@parcel/core"');
+			assert.fileContent('typescript-bundle/package.json', '"@parcel/config-default"');
+			assert.fileContent('typescript-bundle/package.json', '"@parcel/reporter-cli"');
+			assert.fileContent('typescript-bundle/package.json', '"glob"');
+		});
+
+		it('adds build scripts to package.json', () => {
+			assert.fileContent('typescript-bundle/package.json', '"build": "node scripts/build.mjs"');
+			assert.fileContent('typescript-bundle/package.json', '"watch": "node scripts/build.mjs --watch"');
 		});
 	});
 });

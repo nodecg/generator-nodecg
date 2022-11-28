@@ -5,32 +5,60 @@ import helpers from 'yeoman-test';
 
 describe('nodecg:panel', () => {
 	describe('running on new project', () => {
-		before((done) => {
-			void helpers
-				.run(path.join(__dirname, '../generators/panel'))
-				.withPrompts({ name: 'test-panel' })
-				.on('error', done)
-				.on('end', done);
+		describe('javascript', () => {
+			before((done) => {
+				void helpers
+					.run(path.join(__dirname, '../generators/panel'))
+					.withPrompts({ name: 'test-panel', typescript: false })
+					.on('error', done)
+					.on('end', done);
+			});
+
+			it('creates files', () => {
+				assert.file(['dashboard/test-panel.html']);
+			});
+
+			it('creates dashboard/test-panel.html', () => {
+				assert.fileContent('dashboard/test-panel.html', '<script src="./test-panel.js">');
+			});
+
+			it('creates dashboard/test-panel.js', () => {
+				assert.file('dashboard/test-panel.js');
+			});
+
+			it('creates package.json', () => {
+				assert.file('package.json');
+				assert.jsonFileContent('package.json', {
+					nodecg: {
+						dashboardPanels: [
+							{
+								name: 'test-panel',
+								title: 'Test Panel',
+								width: 2,
+								file: 'test-panel.html',
+								headerColor: '#525F78',
+							},
+						],
+					},
+				});
+			});
 		});
 
-		it('creates files', () => {
-			assert.file(['dashboard/test-panel.html']);
-		});
+		describe('typescript', () => {
+			before((done) => {
+				void helpers
+					.run(path.join(__dirname, '../generators/panel'))
+					.withPrompts({ name: 'test-panel', typescript: true })
+					.on('error', done)
+					.on('end', done);
+			});
 
-		it('creates package.json', () => {
-			assert.file('package.json');
-			assert.jsonFileContent('package.json', {
-				nodecg: {
-					dashboardPanels: [
-						{
-							name: 'test-panel',
-							title: 'Test Panel',
-							width: 2,
-							file: 'test-panel.html',
-							headerColor: '#525F78',
-						},
-					],
-				},
+			it('creates dashboard/test-panel.html', () => {
+				assert.fileContent('src/dashboard/test-panel.html', '<script src="./test-panel.ts">');
+			});
+
+			it('creates src/dashboard/test-panel.ts', () => {
+				assert.file('src/dashboard/test-panel.ts');
 			});
 		});
 	});
@@ -97,7 +125,7 @@ describe('nodecg:panel', () => {
 				name: 'test-bundle',
 				version: '1.0.34',
 				description: 'lots of fun',
-				homepage: 'http://nodecg.com',
+				homepage: 'http://nodecg.dev',
 				repository: 'nodecg/test-bundle',
 				author: 'Alex Van Camp',
 				files: ['dashboard', 'graphics', 'extension.js', 'extension'],

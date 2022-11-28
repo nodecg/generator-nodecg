@@ -1,6 +1,7 @@
 import Generator from 'yeoman-generator';
 import extend from 'deep-extend';
 import type { Manifest } from '../../types/manifest';
+import path from 'path';
 
 module.exports = class extends Generator {
 	public props: {
@@ -8,12 +9,15 @@ module.exports = class extends Generator {
 		width?: number;
 		height?: number;
 		singleInstance?: boolean;
+		typescript?: boolean;
 	};
 
 	constructor(args: string | string[], opts: Generator.GeneratorOptions) {
 		super(args, opts);
 
-		this.props = {};
+		this.props = {
+			typescript: opts.typescript,
+		};
 	}
 
 	async prompting() {
@@ -56,15 +60,37 @@ module.exports = class extends Generator {
 			},
 		];
 
+		// Only prompt for typescript if a parent generator didn't already do so
+		if (typeof this.props.typescript === 'undefined') {
+			(prompts as any).push({
+				name: 'typescript',
+				message: 'Would you like to generate this graphic in TypeScript?',
+				type: 'confirm',
+			});
+		}
+
 		const props = await this.prompt(prompts);
 		this.props = extend(this.props, props);
 	}
 
 	writing() {
-		const html = this.fs.read(this.templatePath('graphic.html'));
-		const graphicFilePath = this.destinationPath(`graphics/${this.props.file!}`);
-		if (!this.fs.exists(graphicFilePath)) {
-			this.fs.write(graphicFilePath, html);
+		// Populate and write the graphic template
+		const htmlFileName = this.props.typescript
+			? `src/graphics/${this.props.file!}`
+			: `graphics/${this.props.file!}`;
+		if (!this.fs.exists(this.destinationPath(htmlFileName))) {
+			const fileNameNoExt = path.basename(htmlFileName, path.extname(this.props.file!));
+			const scriptSourceName = this.props.typescript
+				? `src/graphics/${fileNameNoExt}.ts`
+				: `graphics/${fileNameNoExt}.js`;
+			this.fs.copyTpl(this.templatePath('graphic.html'), this.destinationPath(htmlFileName), {
+				scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
+				sourceName: scriptSourceName,
+			});
+			this.fs.copy(
+				this.templatePath(this.props.typescript ? 'graphic.ts' : 'graphic.js'),
+				this.destinationPath(scriptSourceName),
+			);
 		}
 
 		const graphicProps = {

@@ -6,10 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const yeoman_generator_1 = __importDefault(require("yeoman-generator"));
 const deep_extend_1 = __importDefault(require("deep-extend"));
 const lodash_1 = __importDefault(require("lodash"));
+const path_1 = __importDefault(require("path"));
 module.exports = class extends yeoman_generator_1.default {
     constructor(args, opts) {
         super(args, opts);
-        this.props = {};
+        this.props = {
+            typescript: opts.typescript,
+        };
     }
     async prompting() {
         await this._askForPanelName();
@@ -137,15 +140,33 @@ module.exports = class extends yeoman_generator_1.default {
                 },
             },
         ];
+        // Only prompt for typescript if a parent generator didn't already do so
+        if (typeof this.props.typescript === 'undefined') {
+            prompts.push({
+                name: 'typescript',
+                message: 'Would you like to generate this panel in TypeScript?',
+                type: 'confirm',
+            });
+        }
         const props = await this.prompt(prompts);
         this.props = (0, deep_extend_1.default)(this.props, props);
     }
     writing() {
         var _a, _b, _c, _d;
-        const html = this.fs.read(this.templatePath('panel.html'));
-        const panelFilePath = this.destinationPath(`dashboard/${this.props.name}.html`);
-        if (!this.fs.exists(panelFilePath)) {
-            this.fs.write(panelFilePath, html);
+        // Populate and write the graphic template
+        const htmlFileName = this.props.typescript
+            ? `src/dashboard/${this.props.name}.html`
+            : `dashboard/${this.props.name}.html`;
+        if (!this.fs.exists(this.destinationPath(htmlFileName))) {
+            const fileNameNoExt = path_1.default.basename(htmlFileName, path_1.default.extname(htmlFileName));
+            const scriptSourceName = this.props.typescript
+                ? `src/dashboard/${fileNameNoExt}.ts`
+                : `dashboard/${fileNameNoExt}.js`;
+            this.fs.copyTpl(this.templatePath('panel.html'), this.destinationPath(htmlFileName), {
+                scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
+                sourceName: scriptSourceName,
+            });
+            this.fs.copy(this.templatePath(this.props.typescript ? 'panel.ts' : 'panel.js'), this.destinationPath(scriptSourceName));
         }
         const panelProps = {
             name: this.props.name,

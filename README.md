@@ -4,7 +4,7 @@
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coverage-image]][coverage-url]
 
-> Yeoman generator for [NodeCG](http://nodecg.com/) bundles
+> Yeoman generator for [NodeCG](http://nodecg.dev/) bundles
 
 generator-nodecg can be used to quickly start a new bundle with the barebones boilerplate files that every bundle needs.
 It can also be used to add a new panel, graphic, or extension in an existing bundle.

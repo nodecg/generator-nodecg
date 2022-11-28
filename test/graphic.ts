@@ -5,35 +5,66 @@ import helpers from 'yeoman-test';
 
 describe('nodecg:graphic', () => {
 	describe('running on new project', () => {
-		before((done) => {
-			void helpers
-				.run(path.join(__dirname, '../generators/graphic'))
-				.withPrompts({
-					file: 'index.html',
-					width: 1280,
-					height: 720,
-					singleInstance: false,
-				})
-				.on('error', done)
-				.on('end', done);
+		context('javascript', () => {
+			before((done) => {
+				void helpers
+					.run(path.join(__dirname, '../generators/graphic'))
+					.withPrompts({
+						file: 'index.html',
+						width: 1280,
+						height: 720,
+						singleInstance: false,
+						typescript: false,
+					})
+					.on('error', done)
+					.on('end', done);
+			});
+
+			it('creates graphics/index.html', () => {
+				assert.fileContent('graphics/index.html', '<script src="./index.js">');
+			});
+
+			it('creates graphics/index.js', () => {
+				assert.file('graphics/index.js');
+			});
+
+			it('creates package.json', () => {
+				assert.file('package.json');
+				assert.jsonFileContent('package.json', {
+					nodecg: {
+						graphics: [
+							{
+								file: 'index.html',
+								width: 1280,
+								height: 720,
+							},
+						],
+					},
+				});
+			});
 		});
 
-		it('creates files', () => {
-			assert.file(['graphics/index.html']);
-		});
+		context('typescript', () => {
+			before((done) => {
+				void helpers
+					.run(path.join(__dirname, '../generators/graphic'))
+					.withPrompts({
+						file: 'index.html',
+						width: 1280,
+						height: 720,
+						singleInstance: false,
+						typescript: true,
+					})
+					.on('error', done)
+					.on('end', done);
+			});
 
-		it('creates package.json', () => {
-			assert.file('package.json');
-			assert.jsonFileContent('package.json', {
-				nodecg: {
-					graphics: [
-						{
-							file: 'index.html',
-							width: 1280,
-							height: 720,
-						},
-					],
-				},
+			it('creates graphics/index.html', () => {
+				assert.fileContent('src/graphics/index.html', '<script src="./index.ts">');
+			});
+
+			it('creates src/graphics/index.ts', () => {
+				assert.file('src/graphics/index.ts');
 			});
 		});
 	});
