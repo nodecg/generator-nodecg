@@ -259,7 +259,7 @@ module.exports = class extends Generator {
 		// Replace the .gitignore from node:git with our own.
 		this.fs.write(
 			this.destinationPath('.gitignore'),
-			'node_modules\ncoverage\nbower_components\n.parcel_cache\ndashboard\ngraphics\nextension',
+			'node_modules\ncoverage\nbower_components\n.parcel_cache\n/dashboard\n/graphics\n/extension',
 		);
 	}
 
