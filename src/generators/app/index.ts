@@ -252,6 +252,7 @@ module.exports = class extends Generator {
 			this.fs.copyTpl(this.templatePath('README.md'), this.destinationPath('README.md'), {
 				name: this.props.name,
 				compatibleRange: this.props.compatibleRange,
+				typescript: this.props.typescript,
 			});
 		}
 
