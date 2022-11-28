@@ -236,6 +236,10 @@ module.exports = class extends Generator {
 				this.fs.copy(this.templatePath('scripts/build.mjs'), this.destinationPath('scripts/build.mjs'));
 			}
 
+			if (!this.fs.exists(this.destinationPath('.parcelrc'))) {
+				this.fs.copy(this.templatePath('.parcelrc'), this.destinationPath('.parcelrc'));
+			}
+
 			await this.addDependencies(['ts-node']);
 			await this.addDevDependencies([
 				'typescript',
@@ -243,6 +247,7 @@ module.exports = class extends Generator {
 				'@parcel/core',
 				'@parcel/config-default',
 				'@parcel/reporter-cli',
+				'@parcel/validator-typescript',
 				'glob',
 			]);
 		}

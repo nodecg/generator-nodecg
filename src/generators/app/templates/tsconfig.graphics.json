@@ -1,7 +1,4 @@
 {
 	"extends": "../../tsconfig.build.json",
-	"compilerOptions": {
-		"outDir": "../graphics"
-	},
 	"include": ["**/*.ts", "../../node_modules/@nodecg/types/augment-window.d.ts"]
 }

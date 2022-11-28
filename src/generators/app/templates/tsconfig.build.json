@@ -1,8 +1,7 @@
 {
 	"compilerOptions": {
 		// Output related
-		"target": "ES2017",
-		"emitDecoratorMetadata": true,
+		"target": "es2021",
 		"outDir": "./build",
 		"module": "commonjs",
 
@@ -12,16 +11,7 @@
 		"resolveJsonModule": true,
 
 		// Type checking
-		"alwaysStrict": true,
-		"forceConsistentCasingInFileNames": true,
-		"noFallthroughCasesInSwitch": true,
-		"noImplicitAny": true,
-		"noImplicitReturns": true,
-		"noImplicitThis": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"strictNullChecks": true,
-		"experimentalDecorators": true,
+		"strict": true,
 
 		// Extra output
 		"declaration": true,

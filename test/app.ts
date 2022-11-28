@@ -143,6 +143,10 @@ describe('nodecg:app', () => {
 			assert.file('typescript-bundle/scripts/build.mjs');
 		});
 
+		it('writes .parcelrc', () => {
+			assert.file('typescript-bundle/.parcelrc');
+		});
+
 		it('adds dependencies to package.json', () => {
 			assert.fileContent('typescript-bundle/package.json', '"ts-node"');
 			assert.fileContent('typescript-bundle/package.json', '"typescript"');
@@ -150,6 +154,7 @@ describe('nodecg:app', () => {
 			assert.fileContent('typescript-bundle/package.json', '"@parcel/core"');
 			assert.fileContent('typescript-bundle/package.json', '"@parcel/config-default"');
 			assert.fileContent('typescript-bundle/package.json', '"@parcel/reporter-cli"');
+			assert.fileContent('typescript-bundle/package.json', '"@parcel/validator-typescript"');
 			assert.fileContent('typescript-bundle/package.json', '"glob"');
 		});
 

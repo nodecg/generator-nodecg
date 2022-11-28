@@ -5,7 +5,6 @@
 
 // Native
 import { fileURLToPath } from 'url';
-import path from 'path';
 
 // Packages
 import glob from 'glob';
@@ -34,23 +33,14 @@ const bundler = new Parcel({
 
 try {
 	if (process.argv.includes('--watch')) {
-		await bundler.watch((err, event) => {
+		await bundler.watch((err) => {
 			if (err) {
 				// fatal error
 				throw err;
 			}
-
-			if (event.type === 'buildSuccess') {
-				const bundles = event.bundleGraph.getBundles();
-				console.log(`✨ Built ${bundles.length} bundles in ${event.buildTime}ms!`);
-			} else if (event.type === 'buildFailure') {
-				// the reporter-cli package will handle printing errors to the user
-			}
 		});
 	} else {
-		const { bundleGraph, buildTime } = await bundler.run();
-		const bundles = bundleGraph.getBundles();
-		console.log(`✨ Built ${bundles.length} bundles in ${buildTime}ms!`);
+		await bundler.run();
 	}
 } catch (_) {
 	// the reporter-cli package will handle printing errors to the user
