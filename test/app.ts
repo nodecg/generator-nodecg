@@ -139,29 +139,23 @@ describe('nodecg:app', () => {
 			assert.file('typescript-bundle/src/extension/tsconfig.json');
 		});
 
+		it('writes scripts', () => {
+			assert.file('typescript-bundle/scripts/build.mjs');
+		});
+
 		it('adds dependencies to package.json', () => {
-			assert.fileContent('typescript-bundle/package.json', 'ts-node');
-			assert.fileContent('typescript-bundle/package.json', 'typescript');
-			assert.fileContent('typescript-bundle/package.json', '@types/node');
+			assert.fileContent('typescript-bundle/package.json', '"ts-node"');
+			assert.fileContent('typescript-bundle/package.json', '"typescript"');
+			assert.fileContent('typescript-bundle/package.json', '"@types/node"');
+			assert.fileContent('typescript-bundle/package.json', '"@parcel/core"');
+			assert.fileContent('typescript-bundle/package.json', '"@parcel/config-default"');
+			assert.fileContent('typescript-bundle/package.json', '"@parcel/reporter-cli"');
+			assert.fileContent('typescript-bundle/package.json', '"glob"');
 		});
 
 		it('adds build scripts to package.json', () => {
-			assert.fileContent(
-				'typescript-bundle/package.json',
-				'"build": "npm run build:dashboard && npm run build:graphics && npm run build:extension"',
-			);
-			assert.fileContent(
-				'typescript-bundle/package.json',
-				'"build:dashboard": "tsc -b -p src/dashboard/tsconfig.json"',
-			);
-			assert.fileContent(
-				'typescript-bundle/package.json',
-				'"build:graphics": "tsc -b -p src/graphics/tsconfig.json"',
-			);
-			assert.fileContent(
-				'typescript-bundle/package.json',
-				'"build:extension": "tsc -b -p src/extension/tsconfig.json"',
-			);
+			assert.fileContent('typescript-bundle/package.json', '"build": "node scripts/build.mjs"');
+			assert.fileContent('typescript-bundle/package.json', '"watch": "node scripts/build.mjs --watch"');
 		});
 	});
 });

@@ -184,7 +184,7 @@ module.exports = class extends Generator {
 				? `src/dashboard/${fileNameNoExt}.ts`
 				: `dashboard/${fileNameNoExt}.js`;
 			this.fs.copyTpl(this.templatePath('panel.html'), this.destinationPath(htmlFileName), {
-				scriptName: `${fileNameNoExt}.js`,
+				scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
 				sourceName: scriptSourceName,
 			});
 			this.fs.copy(

@@ -84,7 +84,7 @@ module.exports = class extends Generator {
 				? `src/graphics/${fileNameNoExt}.ts`
 				: `graphics/${fileNameNoExt}.js`;
 			this.fs.copyTpl(this.templatePath('graphic.html'), this.destinationPath(htmlFileName), {
-				scriptName: `${fileNameNoExt}.js`,
+				scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
 				sourceName: scriptSourceName,
 			});
 			this.fs.copy(

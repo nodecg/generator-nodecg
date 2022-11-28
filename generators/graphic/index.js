@@ -75,7 +75,7 @@ module.exports = class extends yeoman_generator_1.default {
                 ? `src/graphics/${fileNameNoExt}.ts`
                 : `graphics/${fileNameNoExt}.js`;
             this.fs.copyTpl(this.templatePath('graphic.html'), this.destinationPath(htmlFileName), {
-                scriptName: `${fileNameNoExt}.js`,
+                scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
                 sourceName: scriptSourceName,
             });
             this.fs.copy(this.templatePath(this.props.typescript ? 'graphic.ts' : 'graphic.js'), this.destinationPath(scriptSourceName));

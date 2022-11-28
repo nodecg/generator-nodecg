@@ -59,6 +59,10 @@ describe('nodecg:graphic', () => {
 					.on('end', done);
 			});
 
+			it('creates graphics/index.html', () => {
+				assert.fileContent('src/graphics/index.html', '<script src="./index.ts">');
+			});
+
 			it('creates src/graphics/index.ts', () => {
 				assert.file('src/graphics/index.ts');
 			});

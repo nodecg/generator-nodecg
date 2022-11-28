@@ -53,6 +53,10 @@ describe('nodecg:panel', () => {
 					.on('end', done);
 			});
 
+			it('creates dashboard/test-panel.html', () => {
+				assert.fileContent('src/dashboard/test-panel.html', '<script src="./test-panel.ts">');
+			});
+
 			it('creates src/dashboard/test-panel.ts', () => {
 				assert.file('src/dashboard/test-panel.ts');
 			});

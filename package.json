@@ -23,7 +23,7 @@
     "generator-license": "^5.0.0",
     "generator-node": "^2.7.0",
     "git-config": "0.0.7",
-    "github-username": "^7.0.0",
+    "github-username": "^6.0.0",
     "lodash": "^4.17.15",
     "mkdirp": "^1.0.4",
     "parse-author": "^2.0.0",

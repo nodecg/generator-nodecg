@@ -177,6 +177,10 @@ module.exports = class extends Generator {
 				nodecg: {
 					compatibleRange: this.props.compatibleRange,
 				},
+				browserslist: {
+					production: ['>0.5%', 'not dead', 'not op_mini all'],
+					development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version'],
+				},
 			},
 			currentPkg,
 		);
@@ -184,6 +188,14 @@ module.exports = class extends Generator {
 		// Combine the keywords
 		if (this.props.keywords) {
 			pkg.keywords = _.uniq(this.props.keywords.concat(pkg.keywords));
+		}
+
+		// Add TypeScript stuff
+		if (this.props.typescript) {
+			pkg.scripts = {
+				build: 'node scripts/build.mjs',
+				watch: 'node scripts/build.mjs --watch',
+			};
 		}
 
 		// Let's extend package.json so we're not overwriting user previous fields
@@ -220,8 +232,19 @@ module.exports = class extends Generator {
 				);
 			}
 
+			if (!this.fs.exists(this.destinationPath('scripts/build.mjs'))) {
+				this.fs.copy(this.templatePath('scripts/build.mjs'), this.destinationPath('scripts/build.mjs'));
+			}
+
 			await this.addDependencies(['ts-node']);
-			await this.addDevDependencies(['typescript', '@types/node']);
+			await this.addDevDependencies([
+				'typescript',
+				'@types/node',
+				'@parcel/core',
+				'@parcel/config-default',
+				'@parcel/reporter-cli',
+				'glob',
+			]);
 		}
 
 		// Populate and write the readme template
@@ -233,7 +256,10 @@ module.exports = class extends Generator {
 		}
 
 		// Replace the .gitignore from node:git with our own.
-		this.fs.write(this.destinationPath('.gitignore'), 'node_modules\ncoverage\nbower_components');
+		this.fs.write(
+			this.destinationPath('.gitignore'),
+			'node_modules\ncoverage\nbower_components\n.parcel_cache\ndashboard\ngraphics\nextension',
+		);
 	}
 
 	default() {
@@ -260,11 +286,15 @@ module.exports = class extends Generator {
 		}
 
 		if (this.props.dashboardPanel) {
-			this.composeWith(require.resolve('./../panel'));
+			this.composeWith(require.resolve('./../panel'), {
+				typescript: this.props.typescript,
+			});
 		}
 
 		if (this.props.graphic) {
-			this.composeWith(require.resolve('./../graphic'));
+			this.composeWith(require.resolve('./../graphic'), {
+				typescript: this.props.typescript,
+			});
 		}
 
 		if (this.props.extension) {

@@ -2,7 +2,7 @@ import Generator from 'yeoman-generator';
 import extend from 'deep-extend';
 
 module.exports = class extends Generator {
-	public props: { type?: 'file' | 'folder'; typescript?: boolean };
+	public props: { typescript?: boolean };
 
 	constructor(args: string | string[], opts: Generator.GeneratorOptions) {
 		super(args, opts);
@@ -13,26 +13,7 @@ module.exports = class extends Generator {
 	}
 
 	async prompting() {
-		const prompts: Generator.Questions = [
-			{
-				type: 'list',
-				name: 'type',
-				message: 'How should your extension be organized?',
-				choices: [
-					{
-						name: 'In a folder (extension/index.js)',
-						value: 'folder',
-						short: 'folder',
-					},
-					{
-						name: 'In one file (extension.js)',
-						value: 'file',
-						short: 'file',
-					},
-				],
-				default: 'file',
-			},
-		];
+		const prompts: Generator.Questions = [];
 
 		// Only prompt for typescript if a parent generator didn't already do so
 		if (typeof this.props.typescript === 'undefined') {
@@ -50,36 +31,20 @@ module.exports = class extends Generator {
 	writing() {
 		if (this.props.typescript) {
 			// If this bundle already has an extension, do nothing.
-			if (
-				this.fs.exists(this.destinationPath('extension.ts')) ||
-				this.fs.exists(this.destinationPath('extension/index.ts'))
-			) {
+			if (this.fs.exists(this.destinationPath('src/extension/index.ts'))) {
 				return;
 			}
 
 			const ts = this.fs.read(this.templatePath('extension.ts'));
-
-			if (this.props.type === 'file') {
-				this.fs.write(this.destinationPath('extension.ts'), ts);
-			} else {
-				this.fs.write(this.destinationPath('extension/index.ts'), ts);
-			}
+			this.fs.write(this.destinationPath('src/extension/index.ts'), ts);
 		} else {
 			// If this bundle already has an extension, do nothing.
-			if (
-				this.fs.exists(this.destinationPath('extension.js')) ||
-				this.fs.exists(this.destinationPath('extension/index.js'))
-			) {
+			if (this.fs.exists(this.destinationPath('extension/index.js'))) {
 				return;
 			}
 
 			const js = this.fs.read(this.templatePath('extension.js'));
-
-			if (this.props.type === 'file') {
-				this.fs.write(this.destinationPath('extension.js'), js);
-			} else {
-				this.fs.write(this.destinationPath('extension/index.js'), js);
-			}
+			this.fs.write(this.destinationPath('extension/index.js'), js);
 		}
 	}
 };

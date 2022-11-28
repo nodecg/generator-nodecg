@@ -3,5 +3,5 @@
 	"compilerOptions": {
 		"outDir": "../dashboard"
 	},
-	"include": ["**/*.ts", "**/*.vue", "**/*.tsx", "../../node_modules/@nodecg/types/augment-window.d.ts"]
+	"include": ["**/*.ts",  "../../node_modules/@nodecg/types/augment-window.d.ts"]
 }
