@@ -19,7 +19,7 @@ describe('nodecg:panel', () => {
 			});
 
 			it('creates dashboard/test-panel.html', () => {
-				assert.fileContent('dashboard/test-panel.html', '<script src="./test-panel.js">');
+				assert.fileContent('dashboard/test-panel.html', '<script type="module" src="./test-panel.js">');
 			});
 
 			it('creates dashboard/test-panel.js', () => {
@@ -54,7 +54,7 @@ describe('nodecg:panel', () => {
 			});
 
 			it('creates dashboard/test-panel.html', () => {
-				assert.fileContent('src/dashboard/test-panel.html', '<script src="./test-panel.ts">');
+				assert.fileContent('src/dashboard/test-panel.html', '<script type="module" src="./test-panel.ts">');
 			});
 
 			it('creates src/dashboard/test-panel.ts', () => {
