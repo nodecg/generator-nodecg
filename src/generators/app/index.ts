@@ -195,6 +195,7 @@ module.exports = class extends Generator {
 			pkg.scripts = {
 				build: 'node scripts/build.mjs',
 				watch: 'node scripts/build.mjs --watch',
+				'generate-schema-types': 'trash src/types/schemas && nodecg schema-types',
 			};
 		}
 
@@ -249,6 +250,8 @@ module.exports = class extends Generator {
 				'@parcel/reporter-cli',
 				'@parcel/validator-typescript',
 				'glob',
+				'json-schema-to-typescript',
+				'trash-cli',
 			]);
 		}
 

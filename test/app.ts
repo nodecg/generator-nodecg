@@ -156,11 +156,17 @@ describe('nodecg:app', () => {
 			assert.fileContent('typescript-bundle/package.json', '"@parcel/reporter-cli"');
 			assert.fileContent('typescript-bundle/package.json', '"@parcel/validator-typescript"');
 			assert.fileContent('typescript-bundle/package.json', '"glob"');
+			assert.fileContent('typescript-bundle/package.json', '"json-schema-to-typescript"');
+			assert.fileContent('typescript-bundle/package.json', '"trash-cli"');
 		});
 
 		it('adds build scripts to package.json', () => {
 			assert.fileContent('typescript-bundle/package.json', '"build": "node scripts/build.mjs"');
 			assert.fileContent('typescript-bundle/package.json', '"watch": "node scripts/build.mjs --watch"');
+			assert.fileContent(
+				'typescript-bundle/package.json',
+				'"generate-schema-types": "trash src/types/schemas && nodecg schema-types"',
+			);
 		});
 	});
 });
