@@ -1,4 +1,5 @@
 import type NodeCG from '@nodecg/types';
+import type { ExampleReplicant } from '../types/schemas';
 
 module.exports = function (nodecg: NodeCG.ServerAPI) {
 	nodecg.log.info("Hello, from your bundle's extension!");
@@ -12,4 +13,7 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 	nodecg.log.info('You can use any libraries, frameworks, and tools you want. There are no limits.');
 	nodecg.log.info('Visit https://nodecg.dev for full documentation.');
 	nodecg.log.info('Good luck!');
+
+	const exampleReplicant = nodecg.Replicant<ExampleReplicant>('exampleReplicant');
+	nodecg.log.debug(exampleReplicant.value);
 };

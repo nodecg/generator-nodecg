@@ -147,6 +147,12 @@ describe('nodecg:app', () => {
 			assert.file('typescript-bundle/.parcelrc');
 		});
 
+		it('writes replicant schema(s)', () => {
+			assert.file('typescript-bundle/schemas/exampleReplicant.json');
+			assert.file('typescript-bundle/src/types/schemas/index.d.ts');
+			assert.file('typescript-bundle/src/types/schemas/exampleReplicant.d.ts');
+		});
+
 		it('adds dependencies to package.json', () => {
 			assert.fileContent('typescript-bundle/package.json', '"ts-node"');
 			assert.fileContent('typescript-bundle/package.json', '"typescript"');
@@ -156,11 +162,17 @@ describe('nodecg:app', () => {
 			assert.fileContent('typescript-bundle/package.json', '"@parcel/reporter-cli"');
 			assert.fileContent('typescript-bundle/package.json', '"@parcel/validator-typescript"');
 			assert.fileContent('typescript-bundle/package.json', '"glob"');
+			assert.fileContent('typescript-bundle/package.json', '"json-schema-to-typescript"');
+			assert.fileContent('typescript-bundle/package.json', '"trash-cli"');
 		});
 
 		it('adds build scripts to package.json', () => {
 			assert.fileContent('typescript-bundle/package.json', '"build": "node scripts/build.mjs"');
 			assert.fileContent('typescript-bundle/package.json', '"watch": "node scripts/build.mjs --watch"');
+			assert.fileContent(
+				'typescript-bundle/package.json',
+				'"generate-schema-types": "trash src/types/schemas && nodecg schema-types"',
+			);
 		});
 	});
 });

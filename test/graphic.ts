@@ -21,7 +21,7 @@ describe('nodecg:graphic', () => {
 			});
 
 			it('creates graphics/index.html', () => {
-				assert.fileContent('graphics/index.html', '<script src="./index.js">');
+				assert.fileContent('graphics/index.html', '<script type="module" src="./index.js">');
 			});
 
 			it('creates graphics/index.js', () => {
@@ -60,7 +60,7 @@ describe('nodecg:graphic', () => {
 			});
 
 			it('creates graphics/index.html', () => {
-				assert.fileContent('src/graphics/index.html', '<script src="./index.ts">');
+				assert.fileContent('src/graphics/index.html', '<script type="module" src="./index.ts">');
 			});
 
 			it('creates src/graphics/index.ts', () => {

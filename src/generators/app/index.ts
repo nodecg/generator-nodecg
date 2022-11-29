@@ -195,6 +195,7 @@ module.exports = class extends Generator {
 			pkg.scripts = {
 				build: 'node scripts/build.mjs',
 				watch: 'node scripts/build.mjs --watch',
+				'generate-schema-types': 'trash src/types/schemas && nodecg schema-types',
 			};
 		}
 
@@ -240,6 +241,27 @@ module.exports = class extends Generator {
 				this.fs.copy(this.templatePath('.parcelrc'), this.destinationPath('.parcelrc'));
 			}
 
+			if (!this.fs.exists(this.destinationPath('schemas/exampleReplicant.json'))) {
+				this.fs.copy(
+					this.templatePath('schemas/exampleReplicant.json'),
+					this.destinationPath('schemas/exampleReplicant.json'),
+				);
+			}
+
+			if (!this.fs.exists(this.destinationPath('src/types/schemas/index.d.ts'))) {
+				this.fs.copy(
+					this.templatePath('src/types/schemas/index.d.ts'),
+					this.destinationPath('src/types/schemas/index.d.ts'),
+				);
+			}
+
+			if (!this.fs.exists(this.destinationPath('src/types/schemas/exampleReplicant.d.ts'))) {
+				this.fs.copy(
+					this.templatePath('src/types/schemas/exampleReplicant.d.ts'),
+					this.destinationPath('src/types/schemas/exampleReplicant.d.ts'),
+				);
+			}
+
 			await this.addDependencies(['ts-node']);
 			await this.addDevDependencies([
 				'typescript',
@@ -249,6 +271,8 @@ module.exports = class extends Generator {
 				'@parcel/reporter-cli',
 				'@parcel/validator-typescript',
 				'glob',
+				'json-schema-to-typescript',
+				'trash-cli',
 			]);
 		}
 

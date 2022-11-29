@@ -1,0 +1,27 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"firstName": {
+			"type": "string"
+		},
+		"lastName": {
+			"type": "string"
+		},
+		"age": {
+			"description": "Age in years",
+			"type": "integer",
+			"minimum": 0
+		},
+		"hairColor": {
+			"enum": ["black", "brown", "blue"],
+			"type": "string"
+		}
+	},
+	"additionalProperties": false,
+	"required": ["firstName", "lastName"],
+	"default": {
+		"firstName": "First",
+		"lastName": "Last"
+	}
+}
