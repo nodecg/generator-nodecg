@@ -1,6 +1,5 @@
 {
 	"$schema": "http://json-schema.org/draft-04/schema#",
-	"title": "Example Schema",
 	"type": "object",
 	"properties": {
 		"firstName": {
@@ -20,5 +19,9 @@
 		}
 	},
 	"additionalProperties": false,
-	"required": ["firstName", "lastName"]
+	"required": ["firstName", "lastName"],
+	"default": {
+		"firstName": "First",
+		"lastName": "Last"
+	}
 }

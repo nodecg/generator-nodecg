@@ -147,6 +147,12 @@ describe('nodecg:app', () => {
 			assert.file('typescript-bundle/.parcelrc');
 		});
 
+		it('writes replicant schema(s)', () => {
+			assert.file('typescript-bundle/schemas/exampleReplicant.json');
+			assert.file('typescript-bundle/src/types/schemas/index.d.ts');
+			assert.file('typescript-bundle/src/types/schemas/exampleReplicant.d.ts');
+		});
+
 		it('adds dependencies to package.json', () => {
 			assert.fileContent('typescript-bundle/package.json', '"ts-node"');
 			assert.fileContent('typescript-bundle/package.json', '"typescript"');
