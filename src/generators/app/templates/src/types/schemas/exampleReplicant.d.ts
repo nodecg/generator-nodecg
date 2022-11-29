@@ -11,6 +11,6 @@ export interface ExampleReplicant {
 	/**
 	 * Age in years
 	 */
-	age?: number;
+	age: number;
 	hairColor?: 'black' | 'brown' | 'blue';
 }

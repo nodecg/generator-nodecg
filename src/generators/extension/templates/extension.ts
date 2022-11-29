@@ -15,5 +15,7 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 	nodecg.log.info('Good luck!');
 
 	const exampleReplicant = nodecg.Replicant<ExampleReplicant>('exampleReplicant');
-	nodecg.log.debug(exampleReplicant.value);
+	setInterval(() => {
+		exampleReplicant.value.
+	}, 5000);
 };

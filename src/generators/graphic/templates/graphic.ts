@@ -5,4 +5,6 @@ import type { ExampleReplicant } from '../types/schemas';
 nodecg.log.info("Here's an example of using NodeCG's logging API!");
 
 const exampleReplicant = nodecg.Replicant<ExampleReplicant>('exampleReplicant');
-nodecg.log.debug(exampleReplicant.value);
+exampleReplicant.on('change', (newVal) => {
+	console.log(newVal);
+});
