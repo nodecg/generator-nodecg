@@ -1,5 +1,8 @@
 {
 	"compilerOptions": {
+		// Required for parcel
+		"isolatedModules": true,
+
 		// Output related
 		"target": "es2021",
 		"outDir": "./build",
