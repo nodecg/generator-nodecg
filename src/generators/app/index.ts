@@ -192,11 +192,16 @@ module.exports = class extends Generator {
 
 		// Add TypeScript stuff
 		if (this.props.typescript) {
+			/* eslint-disable @typescript-eslint/naming-convention */
 			pkg.scripts = {
 				build: 'node scripts/build.mjs',
+				'build:extension': 'node scripts/build.mjs --skipBrowser',
 				watch: 'node scripts/build.mjs --watch',
+				'watch:browser': 'node scripts/build.mjs --skipExtension --watch',
+				dev: 'concurrently --kill-others "npm run watch:browser" "nodemon"',
 				'generate-schema-types': 'trash src/types/schemas && nodecg schema-types',
 			};
+			/* eslint-enable @typescript-eslint/naming-convention */
 		}
 
 		// Let's extend package.json so we're not overwriting user previous fields
@@ -262,6 +267,10 @@ module.exports = class extends Generator {
 				);
 			}
 
+			if (!this.fs.exists(this.destinationPath('nodemon.json'))) {
+				this.fs.copy(this.templatePath('nodemon.json'), this.destinationPath('nodemon.json'));
+			}
+
 			await this.addDependencies(['ts-node']);
 			await this.addDevDependencies([
 				'typescript',
@@ -273,6 +282,8 @@ module.exports = class extends Generator {
 				'glob',
 				'json-schema-to-typescript',
 				'trash-cli',
+				'nodemon',
+				'concurrently',
 			]);
 		}
 
@@ -288,7 +299,7 @@ module.exports = class extends Generator {
 		// Replace the .gitignore from node:git with our own.
 		this.fs.write(
 			this.destinationPath('.gitignore'),
-			'node_modules\ncoverage\nbower_components\n.parcel_cache\n/dashboard\n/graphics\n/extension',
+			'node_modules\ncoverage\nbower_components\n.parcel-cache\n/dashboard\n/graphics\n/extension',
 		);
 	}
 

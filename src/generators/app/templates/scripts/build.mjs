@@ -5,6 +5,7 @@
 
 // Native
 import { fileURLToPath } from 'url';
+import { argv } from 'process';
 
 // Packages
 import glob from 'glob';
@@ -13,15 +14,23 @@ import { Parcel } from '@parcel/core';
 // Ours
 import pjson from '../package.json' assert { type: 'json' };
 
+const entries = [];
+if (!argv.includes('--skipBrowser')) {
+	entries.push(...glob.sync('src/{dashboard,graphics}/**/*.html'));
+}
+if (!argv.includes('--skipExtension')) {
+	entries.push(...glob.sync('src/extension/index.ts'));
+}
+
 const bundler = new Parcel({
-	entries: [...glob.sync('src/{dashboard,graphics}/**/*.html'), ...glob.sync('src/extension/index.ts')],
+	entries,
 	defaultConfig: '@parcel/config-default',
 	defaultTargetOptions: {
 		engines: {
 			browsers: ['last 5 Chrome versions'],
 		},
 		publicUrl: `/bundles/${pjson.name}`,
-		distDir: '.',
+		distDir: argv.includes('--skipBrowser') ? 'extension' : '.',
 	},
 	additionalReporters: [
 		{
@@ -32,7 +41,7 @@ const bundler = new Parcel({
 });
 
 try {
-	if (process.argv.includes('--watch')) {
+	if (argv.includes('--watch')) {
 		await bundler.watch((err) => {
 			if (err) {
 				// fatal error

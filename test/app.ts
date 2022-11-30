@@ -147,6 +147,10 @@ describe('nodecg:app', () => {
 			assert.file('typescript-bundle/.parcelrc');
 		});
 
+		it('writes nodemon.json', () => {
+			assert.file('typescript-bundle/nodemon.json');
+		});
+
 		it('writes replicant schema(s)', () => {
 			assert.file('typescript-bundle/schemas/exampleReplicant.json');
 			assert.file('typescript-bundle/src/types/schemas/index.d.ts');
@@ -164,11 +168,25 @@ describe('nodecg:app', () => {
 			assert.fileContent('typescript-bundle/package.json', '"glob"');
 			assert.fileContent('typescript-bundle/package.json', '"json-schema-to-typescript"');
 			assert.fileContent('typescript-bundle/package.json', '"trash-cli"');
+			assert.fileContent('typescript-bundle/package.json', '"nodemon"');
+			assert.fileContent('typescript-bundle/package.json', '"concurrently"');
 		});
 
 		it('adds build scripts to package.json', () => {
 			assert.fileContent('typescript-bundle/package.json', '"build": "node scripts/build.mjs"');
+			assert.fileContent(
+				'typescript-bundle/package.json',
+				'"build:extension": "node scripts/build.mjs --skipBrowser"',
+			);
 			assert.fileContent('typescript-bundle/package.json', '"watch": "node scripts/build.mjs --watch"');
+			assert.fileContent(
+				'typescript-bundle/package.json',
+				'"watch:browser": "node scripts/build.mjs --skipExtension --watch"',
+			);
+			assert.fileContent(
+				'typescript-bundle/package.json',
+				`"dev": "concurrently --kill-others \\"npm run watch:browser\\\" \\"nodemon\\""`,
+			);
 			assert.fileContent(
 				'typescript-bundle/package.json',
 				'"generate-schema-types": "trash src/types/schemas && nodecg schema-types"',

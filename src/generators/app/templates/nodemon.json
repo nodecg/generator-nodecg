@@ -1,0 +1,16 @@
+{
+	"watch": ["src/extension/*", "src/types/*"],
+	"exec": "npm run build:extension && node ../../index.js",
+	"ext": "js,ts,json,yaml",
+	"delay": 500,
+	"ignoreRoot": [
+		".git",
+		"node_modules",
+		".nyc_output",
+		".parcel-cache",
+		"coverage",
+		"extension",
+		"graphics",
+		"dashboard"
+	]
+}
