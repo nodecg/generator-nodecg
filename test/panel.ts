@@ -9,7 +9,7 @@ describe('nodecg:panel', () => {
 			before((done) => {
 				void helpers
 					.run(path.join(__dirname, '../generators/panel'))
-					.withPrompts({ name: 'test-panel', typescript: false })
+					.withPrompts({ name: 'test-panel', typescript: false, react: false })
 					.on('error', done)
 					.on('end', done);
 			});
@@ -48,7 +48,7 @@ describe('nodecg:panel', () => {
 			before((done) => {
 				void helpers
 					.run(path.join(__dirname, '../generators/panel'))
-					.withPrompts({ name: 'test-panel', typescript: true })
+					.withPrompts({ name: 'test-panel', typescript: true, react: false })
 					.on('error', done)
 					.on('end', done);
 			});
@@ -59,6 +59,32 @@ describe('nodecg:panel', () => {
 
 			it('creates src/dashboard/test-panel.ts', () => {
 				assert.file('src/dashboard/test-panel.ts');
+			});
+		});
+
+		describe('react', () => {
+			before((done) => {
+				void helpers
+					.run(path.join(__dirname, '../generators/panel'))
+					.withPrompts({ name: 'test-panel', typescript: true, react: true })
+					.on('error', done)
+					.on('end', done);
+			});
+
+			it('creates src/dashboard/test-panel.html', () => {
+				assert.fileContent(
+					'src/dashboard/test-panel.html',
+					'<script type="module" src="./test-panel-bootstrap.tsx">',
+				);
+			});
+
+			it('creates src/dashboard/test-panel-bootstrap.tsx', () => {
+				assert.fileContent('src/dashboard/test-panel-bootstrap.tsx', "import { TestPanel } from './TestPanel'");
+				assert.fileContent('src/dashboard/test-panel-bootstrap.tsx', 'root.render(<TestPanel />);');
+			});
+
+			it('creates src/dashboard/TestPanel.tsx', () => {
+				assert.fileContent('src/dashboard/TestPanel.tsx', 'export function TestPanel() {');
 			});
 		});
 	});

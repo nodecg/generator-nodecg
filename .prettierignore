@@ -2,4 +2,5 @@
 /coverage
 /node_modules
 /generators
+/**/templates
 .env

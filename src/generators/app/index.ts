@@ -25,6 +25,7 @@ module.exports = class extends Generator {
 		graphic?: boolean;
 		extension?: boolean;
 		typescript?: boolean;
+		react?: boolean;
 	};
 
 	private readonly pkg: PackageJson.PackageJsonStandard;
@@ -132,6 +133,13 @@ module.exports = class extends Generator {
 				name: 'typescript',
 				message: 'Would you like to generate this bundle in TypeScript?',
 				type: 'confirm',
+			},
+			{
+				name: 'react',
+				message: 'Would you like to generate this bundle in React?',
+				type: 'confirm',
+				default: false,
+				when: (answers) => answers.typescript,
 			},
 		];
 
@@ -285,6 +293,11 @@ module.exports = class extends Generator {
 				'nodemon',
 				'concurrently',
 			]);
+
+			if (this.props.react) {
+				await this.addDependencies(['react', 'react-dom']);
+				await this.addDependencies(['@types/react', '@types/react-dom']);
+			}
 		}
 
 		// Populate and write the readme template
@@ -329,12 +342,14 @@ module.exports = class extends Generator {
 		if (this.props.dashboardPanel) {
 			this.composeWith(require.resolve('./../panel'), {
 				typescript: this.props.typescript,
+				react: this.props.react,
 			});
 		}
 
 		if (this.props.graphic) {
 			this.composeWith(require.resolve('./../graphic'), {
 				typescript: this.props.typescript,
+				react: this.props.react,
 			});
 		}
 

@@ -38,6 +38,7 @@ describe('nodecg:app', () => {
 				authorUrl: 'http://alexvan.camp/',
 				keywords: ['foo', 'bar'],
 				typescript: false,
+				react: false,
 			};
 			void helpers
 				.run(path.join(__dirname, '../generators/app'))
@@ -98,6 +99,7 @@ describe('nodecg:app', () => {
 				.withPrompts({
 					name: 'test-bundle',
 					typescript: false,
+					react: false,
 				})
 				.on('ready', (gen: any) => {
 					gen.fs.writeJSON(gen.destinationPath('test-bundle/package.json'), this.pkg);
@@ -117,12 +119,13 @@ describe('nodecg:app', () => {
 		});
 	});
 
-	describe('adding typescript', () => {
+	describe('typescript', () => {
 		before(function (done) {
 			this.timeout(10000);
 			this.answers = {
 				name: 'typescript-bundle',
 				typescript: true,
+				react: false,
 			};
 			void helpers
 				.run(path.join(__dirname, '../generators/app'))
@@ -185,12 +188,35 @@ describe('nodecg:app', () => {
 			);
 			assert.fileContent(
 				'typescript-bundle/package.json',
-				`"dev": "concurrently --kill-others \\"npm run watch:browser\\\" \\"nodemon\\""`,
+				`"dev": "concurrently --kill-others \\"npm run watch:browser\\" \\"nodemon\\""`,
 			);
 			assert.fileContent(
 				'typescript-bundle/package.json',
 				'"generate-schema-types": "trash src/types/schemas && nodecg schema-types"',
 			);
+		});
+	});
+
+	describe('react', () => {
+		before(function (done) {
+			this.timeout(10000);
+			this.answers = {
+				name: 'react-bundle',
+				typescript: true,
+				react: true,
+			};
+			void helpers
+				.run(path.join(__dirname, '../generators/app'))
+				.withPrompts(this.answers)
+				.on('error', done)
+				.on('end', done);
+		});
+
+		it('adds dependencies to package.json', () => {
+			assert.fileContent('react-bundle/package.json', '"react"');
+			assert.fileContent('react-bundle/package.json', '"react-dom"');
+			assert.fileContent('react-bundle/package.json', '"@types/react"');
+			assert.fileContent('react-bundle/package.json', '"@types/react-dom"');
 		});
 	});
 });

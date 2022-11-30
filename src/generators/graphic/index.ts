@@ -2,6 +2,7 @@ import Generator from 'yeoman-generator';
 import extend from 'deep-extend';
 import type { Manifest } from '../../types/manifest';
 import path from 'path';
+import { camelCase, upperFirst } from 'lodash';
 
 module.exports = class extends Generator {
 	public props: {
@@ -10,6 +11,7 @@ module.exports = class extends Generator {
 		height?: number;
 		singleInstance?: boolean;
 		typescript?: boolean;
+		react?: boolean;
 	};
 
 	constructor(args: string | string[], opts: Generator.GeneratorOptions) {
@@ -17,6 +19,7 @@ module.exports = class extends Generator {
 
 		this.props = {
 			typescript: opts.typescript,
+			react: opts.react,
 		};
 	}
 
@@ -58,16 +61,21 @@ module.exports = class extends Generator {
 				message: 'Is this a "single instance" graphic?',
 				default: false,
 			},
-		];
-
-		// Only prompt for typescript if a parent generator didn't already do so
-		if (typeof this.props.typescript === 'undefined') {
-			(prompts as any).push({
+			{
+				// Only prompt for typescript if a parent generator didn't already do so
 				name: 'typescript',
 				message: 'Would you like to generate this graphic in TypeScript?',
 				type: 'confirm',
-			});
-		}
+				when: () => typeof this.props.typescript === 'undefined',
+			},
+			{
+				name: 'react',
+				message: 'Would you like to generate this graphic in React?',
+				type: 'confirm',
+				when: (answers) =>
+					(this.props.typescript ?? answers.typescript) && typeof this.props.react === 'undefined',
+			},
+		];
 
 		const props = await this.prompt(prompts);
 		this.props = extend(this.props, props);
@@ -80,16 +88,38 @@ module.exports = class extends Generator {
 			: `graphics/${this.props.file!}`;
 		if (!this.fs.exists(this.destinationPath(htmlFileName))) {
 			const fileNameNoExt = path.basename(htmlFileName, path.extname(this.props.file!));
-			this.fs.copyTpl(this.templatePath('graphic.html'), this.destinationPath(htmlFileName), {
-				scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
-				typescript: this.props.typescript,
-			});
-			this.fs.copy(
-				this.templatePath(this.props.typescript ? 'graphic.ts' : 'graphic.js'),
-				this.destinationPath(
-					this.props.typescript ? `src/graphics/${fileNameNoExt}.ts` : `graphics/${fileNameNoExt}.js`,
-				),
-			);
+			if (this.props.react) {
+				const bootstrapScriptName = `${fileNameNoExt}-bootstrap.tsx`;
+				const elementName = upperFirst(camelCase(fileNameNoExt));
+				this.fs.copyTpl(this.templatePath('react/graphic.html'), this.destinationPath(htmlFileName), {
+					scriptName: bootstrapScriptName,
+				});
+				this.fs.copyTpl(
+					this.templatePath('react/graphic.tsx'),
+					this.destinationPath(`src/graphics/${bootstrapScriptName}`),
+					{
+						elementName,
+					},
+				);
+				this.fs.copyTpl(
+					this.templatePath('react/Element.tsx'),
+					this.destinationPath(`src/graphics/${elementName}.tsx`),
+					{
+						elementName,
+					},
+				);
+			} else {
+				this.fs.copyTpl(this.templatePath('vanilla/graphic.html'), this.destinationPath(htmlFileName), {
+					scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
+					typescript: this.props.typescript,
+				});
+				this.fs.copy(
+					this.templatePath(this.props.typescript ? 'vanilla/graphic.ts' : 'vanilla/graphic.js'),
+					this.destinationPath(
+						this.props.typescript ? `src/graphics/${fileNameNoExt}.ts` : `graphics/${fileNameNoExt}.js`,
+					),
+				);
+			}
 		}
 
 		const graphicProps = {

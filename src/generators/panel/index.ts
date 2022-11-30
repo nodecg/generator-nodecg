@@ -1,6 +1,6 @@
 import Generator from 'yeoman-generator';
 import extend from 'deep-extend';
-import _ from 'lodash';
+import _, { camelCase, upperFirst } from 'lodash';
 import type { Manifest, UnparsedPanel } from '../../types/manifest';
 import path from 'path';
 
@@ -19,6 +19,7 @@ module.exports = class extends Generator {
 		dialogDismissBtnLabel?: string;
 		headerColor?: string;
 		typescript?: boolean;
+		react?: boolean;
 	};
 
 	constructor(args: string | string[], opts: Generator.GeneratorOptions) {
@@ -26,6 +27,7 @@ module.exports = class extends Generator {
 
 		this.props = {
 			typescript: opts.typescript,
+			react: opts.react,
 		};
 	}
 
@@ -158,16 +160,21 @@ module.exports = class extends Generator {
 					return !answers.fullbleed && answers.workspace;
 				},
 			},
-		];
-
-		// Only prompt for typescript if a parent generator didn't already do so
-		if (typeof this.props.typescript === 'undefined') {
-			(prompts as any).push({
+			// Only prompt for typescript if a parent generator didn't already do so
+			{
 				name: 'typescript',
 				message: 'Would you like to generate this panel in TypeScript?',
 				type: 'confirm',
-			});
-		}
+				when: () => typeof this.props.typescript === 'undefined',
+			},
+			{
+				name: 'react',
+				message: 'Would you like to generate this panel in React?',
+				type: 'confirm',
+				when: (answers) =>
+					(this.props.typescript ?? answers.typescript) && typeof this.props.react === 'undefined',
+			},
+		];
 
 		const props = await this.prompt(prompts);
 		this.props = extend(this.props, props);
@@ -180,16 +187,38 @@ module.exports = class extends Generator {
 			: `dashboard/${this.props.name!}.html`;
 		if (!this.fs.exists(this.destinationPath(htmlFileName))) {
 			const fileNameNoExt = path.basename(htmlFileName, path.extname(htmlFileName));
-			this.fs.copyTpl(this.templatePath('panel.html'), this.destinationPath(htmlFileName), {
-				scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
-				typescript: this.props.typescript,
-			});
-			this.fs.copy(
-				this.templatePath(this.props.typescript ? 'panel.ts' : 'panel.js'),
-				this.destinationPath(
-					this.props.typescript ? `src/dashboard/${fileNameNoExt}.ts` : `dashboard/${fileNameNoExt}.js`,
-				),
-			);
+			if (this.props.react) {
+				const bootstrapScriptName = `${fileNameNoExt}-bootstrap.tsx`;
+				const elementName = upperFirst(camelCase(fileNameNoExt));
+				this.fs.copyTpl(this.templatePath('react/panel.html'), this.destinationPath(htmlFileName), {
+					scriptName: bootstrapScriptName,
+				});
+				this.fs.copyTpl(
+					this.templatePath('react/panel.tsx'),
+					this.destinationPath(`src/dashboard/${bootstrapScriptName}`),
+					{
+						elementName,
+					},
+				);
+				this.fs.copyTpl(
+					this.templatePath('react/Element.tsx'),
+					this.destinationPath(`src/dashboard/${elementName}.tsx`),
+					{
+						elementName,
+					},
+				);
+			} else {
+				this.fs.copyTpl(this.templatePath('vanilla/panel.html'), this.destinationPath(htmlFileName), {
+					scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
+					typescript: this.props.typescript,
+				});
+				this.fs.copy(
+					this.templatePath(this.props.typescript ? 'vanilla/panel.ts' : 'vanilla/panel.js'),
+					this.destinationPath(
+						this.props.typescript ? `src/dashboard/${fileNameNoExt}.ts` : `dashboard/${fileNameNoExt}.js`,
+					),
+				);
+			}
 		}
 
 		const panelProps: UnparsedPanel = {

@@ -15,6 +15,7 @@ describe('nodecg:graphic', () => {
 						height: 720,
 						singleInstance: false,
 						typescript: false,
+						react: false,
 					})
 					.on('error', done)
 					.on('end', done);
@@ -54,17 +55,48 @@ describe('nodecg:graphic', () => {
 						height: 720,
 						singleInstance: false,
 						typescript: true,
+						react: false,
 					})
 					.on('error', done)
 					.on('end', done);
 			});
 
-			it('creates graphics/index.html', () => {
+			it('creates src/graphics/index.html', () => {
 				assert.fileContent('src/graphics/index.html', '<script type="module" src="./index.ts">');
 			});
 
 			it('creates src/graphics/index.ts', () => {
 				assert.file('src/graphics/index.ts');
+			});
+		});
+
+		context('react', () => {
+			before((done) => {
+				void helpers
+					.run(path.join(__dirname, '../generators/graphic'))
+					.withPrompts({
+						file: 'index.html',
+						width: 1280,
+						height: 720,
+						singleInstance: false,
+						typescript: true,
+						react: true,
+					})
+					.on('error', done)
+					.on('end', done);
+			});
+
+			it('creates src/graphics/index.html', () => {
+				assert.fileContent('src/graphics/index.html', '<script type="module" src="./index-bootstrap.tsx">');
+			});
+
+			it('creates src/graphics/index-bootstrap.tsx', () => {
+				assert.fileContent('src/graphics/index-bootstrap.tsx', "import { Index } from './Index'");
+				assert.fileContent('src/graphics/index-bootstrap.tsx', 'root.render(<Index />);');
+			});
+
+			it('creates src/graphics/Index.tsx', () => {
+				assert.fileContent('src/graphics/Index.tsx', 'export function Index() {');
 			});
 		});
 	});
@@ -91,6 +123,8 @@ describe('nodecg:graphic', () => {
 					width: 1280,
 					height: 720,
 					singleInstance: false,
+					typescript: false,
+					react: false,
 				})
 				.on('ready', (gen: any) => {
 					gen.fs.writeJSON(gen.destinationPath('package.json'), this.pkg);

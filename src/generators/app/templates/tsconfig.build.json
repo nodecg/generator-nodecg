@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		// Required for parcel
 		"isolatedModules": true,
+		"jsx": "react",
 
 		// Output related
 		"target": "es2021",
