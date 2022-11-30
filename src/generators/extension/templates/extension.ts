@@ -16,6 +16,6 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 
 	const exampleReplicant = nodecg.Replicant<ExampleReplicant>('exampleReplicant');
 	setInterval(() => {
-		exampleReplicant.value.
+		exampleReplicant.value.age++;
 	}, 5000);
 };

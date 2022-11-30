@@ -80,16 +80,15 @@ module.exports = class extends Generator {
 			: `graphics/${this.props.file!}`;
 		if (!this.fs.exists(this.destinationPath(htmlFileName))) {
 			const fileNameNoExt = path.basename(htmlFileName, path.extname(this.props.file!));
-			const scriptSourceName = this.props.typescript
-				? `src/graphics/${fileNameNoExt}.ts`
-				: `graphics/${fileNameNoExt}.js`;
 			this.fs.copyTpl(this.templatePath('graphic.html'), this.destinationPath(htmlFileName), {
 				scriptName: `${fileNameNoExt}.${this.props.typescript ? 'ts' : 'js'}`,
-				sourceName: scriptSourceName,
+				typescript: this.props.typescript,
 			});
 			this.fs.copy(
 				this.templatePath(this.props.typescript ? 'graphic.ts' : 'graphic.js'),
-				this.destinationPath(scriptSourceName),
+				this.destinationPath(
+					this.props.typescript ? `src/graphics/${fileNameNoExt}.ts` : `graphics/${fileNameNoExt}.js`,
+				),
 			);
 		}
 
