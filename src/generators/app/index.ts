@@ -288,11 +288,15 @@ module.exports = class extends Generator {
 				'@parcel/reporter-cli',
 				'@parcel/validator-typescript',
 				'glob',
-				'json-schema-to-typescript',
 				'trash-cli',
 				'nodemon',
 				'concurrently',
 			]);
+			await this.addDevDependencies({
+				/* eslint-disable @typescript-eslint/naming-convention */
+				'@nodecg/types': this.props.compatibleRange ?? '*',
+				/* eslint-enable @typescript-eslint/naming-convention */
+			});
 
 			if (this.props.react) {
 				await this.addDependencies(['react', 'react-dom']);

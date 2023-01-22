@@ -168,8 +168,8 @@ describe('nodecg:app', () => {
 			assert.fileContent('typescript-bundle/package.json', '"@parcel/config-default"');
 			assert.fileContent('typescript-bundle/package.json', '"@parcel/reporter-cli"');
 			assert.fileContent('typescript-bundle/package.json', '"@parcel/validator-typescript"');
+			assert.fileContent('typescript-bundle/package.json', '"@nodecg/types"');
 			assert.fileContent('typescript-bundle/package.json', '"glob"');
-			assert.fileContent('typescript-bundle/package.json', '"json-schema-to-typescript"');
 			assert.fileContent('typescript-bundle/package.json', '"trash-cli"');
 			assert.fileContent('typescript-bundle/package.json', '"nodemon"');
 			assert.fileContent('typescript-bundle/package.json', '"concurrently"');
