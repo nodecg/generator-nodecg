@@ -58,7 +58,6 @@
     "nyc": "^15.1.0",
     "onchange": "^7.1.0",
     "prettier": "^2.8.0",
-    "standard-version": "^9.5.0",
     "trash-cli": "^5.0.0",
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
@@ -81,9 +80,6 @@
     "test": "nyc --reporter=lcov ts-mocha -r source-map-support/register test/**/*.ts",
     "watch": "onchange --initial generators/**/*.js test/** -- nyc ts-mocha -r source-map-support/register --type-check test/**/*.ts",
     "report-coverage": "codecov",
-    "prerelease": "npm run lint && npm run build && npm t",
-    "release": "standard-version",
-    "postrelease": "npm publish && git push --follow-tags",
     "prebuild": "trash generators",
     "build": "tsc -p tsconfig.build.json",
     "postbuild": "node ./scripts/copy-templates.js"
