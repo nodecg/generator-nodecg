@@ -14,7 +14,7 @@ module.exports = function (nodecg: NodeCG.ServerAPI) {
 	nodecg.log.info('Visit https://nodecg.dev for full documentation.');
 	nodecg.log.info('Good luck!');
 
-	const exampleReplicant = nodecg.Replicant<ExampleReplicant>('exampleReplicant');
+	const exampleReplicant = nodecg.Replicant('exampleReplicant') as unknown as NodeCG.ServerReplicantWithSchemaDefault<ExampleReplicant>;
 	setInterval(() => {
 		exampleReplicant.value.age++;
 	}, 5000);
