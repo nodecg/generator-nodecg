@@ -1,6 +1,6 @@
 {
   "name": "generator-nodecg",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Yeoman generator for NodeCG bundles",
   "homepage": "http://nodecg.dev",
   "author": {

@@ -24,6 +24,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 <a name="1.0.3"></a>
 
+## [2.0.1](https://github.com/nodecg/generator-nodecg/compare/v2.0.0...v2.0.1) (2023-03-24)
+
+
+### Bug Fixes
+
+* proper types for example replicant in typescript output ([7f2b72b](https://github.com/nodecg/generator-nodecg/commit/7f2b72b585ffde70ca7dfc7d0c14a62585fe92fb))
+
 ## [2.0.0](https://github.com/nodecg/generator-nodecg/compare/v1.0.0...v2.0.0) (2023-03-23)
 
 
