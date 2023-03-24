@@ -22,6 +22,8 @@ npm install -g generator-nodecg@latest
 Then generate your new bundle:
 
 ```bash
+# Run this command inside the directory of your bundle.
+# For example, nodecg/bundles/my-bundle.
 yo nodecg
 ```
 
