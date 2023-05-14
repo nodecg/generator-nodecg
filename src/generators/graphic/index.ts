@@ -36,7 +36,7 @@ export default class GraphicGenerator extends Generator {
 				name: 'width',
 				message: "Your graphic's width (in pixels)",
 				default: 1920,
-				filter(input) {
+				filter(input: string) {
 					return parseInt(input, 10);
 				},
 				validate(input) {
@@ -48,7 +48,7 @@ export default class GraphicGenerator extends Generator {
 				name: 'height',
 				message: "Your graphic's height (in pixels)",
 				default: 1080,
-				filter(input) {
+				filter(input: string) {
 					return parseInt(input, 10);
 				},
 				validate(input) {
@@ -142,4 +142,4 @@ export default class GraphicGenerator extends Generator {
 		// Let's extend package.json so we're not overwriting user previous fields
 		this.fs.writeJSON(this.destinationPath('package.json'), currentPkg);
 	}
-};
+}

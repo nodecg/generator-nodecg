@@ -47,4 +47,4 @@ export default class ExtensionGenerator extends Generator {
 			this.fs.write(this.destinationPath('extension/index.js'), js);
 		}
 	}
-};
+}

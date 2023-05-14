@@ -82,7 +82,7 @@ export default class PanelGenerator extends Generator {
 				when(answers) {
 					return !answers.fullbleed;
 				},
-				filter(input) {
+				filter(input: string) {
 					return parseInt(input, 10);
 				},
 				validate(input) {
@@ -267,4 +267,4 @@ export default class PanelGenerator extends Generator {
 		// Let's extend package.json so we're not overwriting user previous fields
 		this.fs.writeJSON(this.destinationPath('package.json'), currentPkg);
 	}
-};
+}

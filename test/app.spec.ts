@@ -5,6 +5,7 @@ import assert from 'yeoman-assert';
 import helpers from 'yeoman-test';
 import { URL } from 'url';
 import { createRequire } from 'node:module';
+import type Generator from 'yeoman-generator';
 
 const require = createRequire(import.meta.url);
 
@@ -48,11 +49,8 @@ describe('nodecg:app', () => {
 			};
 			void helpers
 				.run(path.join(__dirname, '../generators/app'))
-				.withPrompts(this.answers)
-				.on('error', (args) => {
-					console.error(args);
-					return done
-				})
+				.withPrompts(this.answers as Generator.Answers)
+				.on('error', done)
 				.on('end', done);
 		});
 
@@ -138,7 +136,7 @@ describe('nodecg:app', () => {
 			};
 			void helpers
 				.run(path.join(__dirname, '../generators/app'))
-				.withPrompts(this.answers)
+				.withPrompts(this.answers as Generator.Answers)
 				.on('error', done)
 				.on('end', done);
 		});
@@ -216,7 +214,7 @@ describe('nodecg:app', () => {
 			};
 			void helpers
 				.run(path.join(__dirname, '../generators/app'))
-				.withPrompts(this.answers)
+				.withPrompts(this.answers as Generator.Answers)
 				.on('error', done)
 				.on('end', done);
 		});

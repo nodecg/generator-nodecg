@@ -7,7 +7,7 @@ import extend from 'deep-extend';
 import githubUsername from 'github-username';
 import parseAuthor from 'parse-author';
 import type { PackageJson } from 'type-fest';
-import {mkdirp} from "mkdirp";
+import { mkdirp } from 'mkdirp';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
@@ -366,4 +366,4 @@ export default class AppGenerator extends Generator {
 			});
 		}
 	}
-};
+}
