@@ -2,14 +2,17 @@ import path from 'path';
 import Generator from 'yeoman-generator';
 import chalk from 'chalk';
 import yosay from 'yosay';
-import _ from 'lodash';
+import _ from 'lodash-es';
 import extend from 'deep-extend';
-import mkdirp from 'mkdirp';
 import githubUsername from 'github-username';
 import parseAuthor from 'parse-author';
 import type { PackageJson } from 'type-fest';
+import {mkdirp} from "mkdirp";
+import { createRequire } from 'node:module';
 
-module.exports = class extends Generator {
+const require = createRequire(import.meta.url);
+
+export default class AppGenerator extends Generator {
 	public props: {
 		name?: string;
 		description?: string;

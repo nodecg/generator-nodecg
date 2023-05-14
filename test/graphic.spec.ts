@@ -2,6 +2,9 @@ import _ from 'lodash';
 import path from 'path';
 import assert from 'yeoman-assert';
 import helpers from 'yeoman-test';
+import {URL} from "url";
+
+const __dirname = new URL('.', import.meta.url).pathname;
 
 describe('nodecg:graphic', () => {
 	describe('running on new project', () => {

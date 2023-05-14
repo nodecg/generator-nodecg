@@ -2,9 +2,9 @@ import Generator from 'yeoman-generator';
 import extend from 'deep-extend';
 import type { Manifest } from '../../types/manifest';
 import path from 'path';
-import { camelCase, upperFirst } from 'lodash';
+import { camelCase, upperFirst } from 'lodash-es';
 
-module.exports = class extends Generator {
+export default class GraphicGenerator extends Generator {
 	public props: {
 		file?: string;
 		width?: number;

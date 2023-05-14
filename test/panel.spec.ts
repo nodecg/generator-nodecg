@@ -2,6 +2,9 @@ import _ from 'lodash';
 import path from 'path';
 import assert from 'yeoman-assert';
 import helpers from 'yeoman-test';
+import {URL} from "url";
+
+const __dirname = new URL('.', import.meta.url).pathname;
 
 describe('nodecg:panel', () => {
 	describe('running on new project', () => {
@@ -54,7 +57,10 @@ describe('nodecg:panel', () => {
 			});
 
 			it('creates dashboard/test-panel.html', () => {
-				assert.fileContent('src/dashboard/test-panel.html', '<script type="module" src="./test-panel.ts">');
+				assert.fileContent(
+					'src/dashboard/test-panel.html',
+					'<script type="module" src="./test-panel.ts">',
+				);
 			});
 
 			it('creates src/dashboard/test-panel.ts', () => {

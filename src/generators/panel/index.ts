@@ -1,10 +1,10 @@
 import Generator from 'yeoman-generator';
 import extend from 'deep-extend';
-import _, { camelCase, upperFirst } from 'lodash';
+import _, { camelCase, upperFirst } from 'lodash-es';
 import type { Manifest, UnparsedPanel } from '../../types/manifest';
 import path from 'path';
 
-module.exports = class extends Generator {
+export default class PanelGenerator extends Generator {
 	public props: {
 		name?: string;
 		title?: string;
