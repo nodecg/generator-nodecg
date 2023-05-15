@@ -208,7 +208,7 @@ describe('nodecg:app', () => {
 
 		it('generates an actually buildable bundle', async function () {
 			// Increase timeout because npm install (and build) can take some time...
-			this.timeout(120000);
+			this.timeout(130000);
 			await checkBuild();
 		});
 	});
