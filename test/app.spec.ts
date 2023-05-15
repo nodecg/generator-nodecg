@@ -3,7 +3,7 @@ import mockery from 'mockery';
 import path from 'path';
 import assert from 'yeoman-assert';
 import helpers from 'yeoman-test';
-import {URL} from 'url';
+import { URL } from 'url';
 import { createRequire } from 'node:module';
 import type Generator from 'yeoman-generator';
 import { promisify } from 'util';
@@ -207,7 +207,7 @@ describe('nodecg:app', () => {
 		});
 
 		it('generates an actually buildable bundle', async function () {
-			// increase timeout because npm install (and build) can take some time...
+			// Increase timeout because npm install (and build) can take some time...
 			this.timeout(120000);
 			await checkBuild();
 		});
@@ -237,21 +237,21 @@ describe('nodecg:app', () => {
 	});
 });
 
-async function checkBuild(): Promise<void>{
-	// get the temporary directory path yeoman is running the generator into (on linux usually: /tmp/<randomString>)
+async function checkBuild(): Promise<void> {
+	// Get the temporary directory path yeoman is running the generator into (on linux usually: /tmp/<randomString>)
 	const context = process.cwd();
 
-	const command: string = 'npm install && npm run build';
-	const executionPath: string = path.join(context, "typescript-bundle");
+	const command = 'npm install && npm run build';
+	const executionPath: string = path.join(context, 'typescript-bundle');
 
-	console.debug("building environment: ", context, command, executionPath);
+	console.debug('building environment: ', context, command, executionPath);
 
 	// Execute the build command in a subprocess
 	const { stdout, stderr } = await promisify(exec)(command, { cwd: executionPath });
 
-	console.log("stdout: ", stdout);
-	console.error("stderr: ", stderr);
+	console.log('stdout: ', stdout);
+	console.error('stderr: ', stderr);
 
-	// check the result (would in fact even without this success message, when subprocess does not exit with code 0 -> but just in case check anyways
+	// Check the result (would in fact even without this success message, when subprocess does not exit with code 0 -> but just in case check anyways
 	assert.strictEqual(stdout.includes('Bundle build completed successfully'), true, 'Expected success message');
 }
