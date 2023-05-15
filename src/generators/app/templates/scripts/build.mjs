@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 import { argv } from 'process';
 
 // Packages
-import glob from 'glob';
+import { glob } from 'glob';
 import { Parcel } from '@parcel/core';
 
 // Ours
@@ -51,6 +51,7 @@ try {
 	} else {
 		await bundler.run();
 	}
+	console.log("Bundle build completed successfully");
 } catch (_) {
 	// the reporter-cli package will handle printing errors to the user
 	process.exit(1);
