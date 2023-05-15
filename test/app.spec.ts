@@ -6,9 +6,12 @@ import helpers from 'yeoman-test';
 import { URL } from 'url';
 import { createRequire } from 'node:module';
 import type Generator from 'yeoman-generator';
+import { promisify } from 'util';
+import { exec } from 'child_process';
 
 const require = createRequire(import.meta.url);
 
+// Will contain trailing slash
 const __dirname = new URL('.', import.meta.url).pathname;
 
 describe('nodecg:app', () => {
@@ -202,6 +205,12 @@ describe('nodecg:app', () => {
 				'"generate-schema-types": "trash src/types/schemas && nodecg schema-types"',
 			);
 		});
+
+		it('generates an actually buildable bundle', async function () {
+			// Increase timeout because npm install (and build) can take some time...
+			this.timeout(130000);
+			await checkBuild();
+		});
 	});
 
 	describe('react', () => {
@@ -227,3 +236,22 @@ describe('nodecg:app', () => {
 		});
 	});
 });
+
+async function checkBuild(): Promise<void> {
+	// Get the temporary directory path yeoman is running the generator into (on linux usually: /tmp/<randomString>)
+	const context = process.cwd();
+
+	const command = 'npm install && npm run build';
+	const executionPath: string = path.join(context, 'typescript-bundle');
+
+	console.debug('building environment: ', context, command, executionPath);
+
+	// Execute the build command in a subprocess
+	const { stdout, stderr } = await promisify(exec)(command, { cwd: executionPath });
+
+	console.log('stdout: ', stdout);
+	console.error('stderr: ', stderr);
+
+	// Check the result (would in fact even without this success message, when subprocess does not exit with code 0 -> but just in case check anyways
+	assert.strictEqual(stdout.includes('Bundle build completed successfully'), true, 'Expected success message');
+}
