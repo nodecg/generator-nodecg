@@ -4,3 +4,4 @@
 /generators
 /**/templates
 .env
+package-lock.json
