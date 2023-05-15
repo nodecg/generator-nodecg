@@ -1,10 +1,10 @@
 {
 	"compilerOptions": {
 		// Output related
-		"target": "ES2017",
+		"target": "ES2022",
 		"emitDecoratorMetadata": true,
 		"outDir": "./generators",
-		"module": "commonjs",
+		"module": "ES2022",
 
 		// Module resolution
 		"moduleResolution": "node",

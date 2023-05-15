@@ -1,6 +1,6 @@
-const fse = require('fs-extra');
-const path = require('path');
-const appRootPath = require('app-root-path');
+import path from 'path';
+import appRootPath from 'app-root-path';
+import fse from 'fs-extra/esm';
 
 const generatorsPath = path.resolve(appRootPath.path, 'src/generators');
 

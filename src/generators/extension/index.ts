@@ -1,7 +1,7 @@
 import Generator from 'yeoman-generator';
 import extend from 'deep-extend';
 
-module.exports = class extends Generator {
+export default class ExtensionGenerator extends Generator {
 	public props: { typescript?: boolean };
 
 	constructor(args: string | string[], opts: Generator.GeneratorOptions) {
@@ -47,4 +47,4 @@ module.exports = class extends Generator {
 			this.fs.write(this.destinationPath('extension/index.js'), js);
 		}
 	}
-};
+}

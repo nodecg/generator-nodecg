@@ -1,10 +1,10 @@
 import Generator from 'yeoman-generator';
 import extend from 'deep-extend';
-import _, { camelCase, upperFirst } from 'lodash';
+import _, { camelCase, upperFirst } from 'lodash-es';
 import type { Manifest, UnparsedPanel } from '../../types/manifest';
 import path from 'path';
 
-module.exports = class extends Generator {
+export default class PanelGenerator extends Generator {
 	public props: {
 		name?: string;
 		title?: string;
@@ -82,7 +82,7 @@ module.exports = class extends Generator {
 				when(answers) {
 					return !answers.fullbleed;
 				},
-				filter(input) {
+				filter(input: string) {
 					return parseInt(input, 10);
 				},
 				validate(input) {
@@ -267,4 +267,4 @@ module.exports = class extends Generator {
 		// Let's extend package.json so we're not overwriting user previous fields
 		this.fs.writeJSON(this.destinationPath('package.json'), currentPkg);
 	}
-};
+}

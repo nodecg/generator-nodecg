@@ -2,9 +2,9 @@ import Generator from 'yeoman-generator';
 import extend from 'deep-extend';
 import type { Manifest } from '../../types/manifest';
 import path from 'path';
-import { camelCase, upperFirst } from 'lodash';
+import { camelCase, upperFirst } from 'lodash-es';
 
-module.exports = class extends Generator {
+export default class GraphicGenerator extends Generator {
 	public props: {
 		file?: string;
 		width?: number;
@@ -36,7 +36,7 @@ module.exports = class extends Generator {
 				name: 'width',
 				message: "Your graphic's width (in pixels)",
 				default: 1920,
-				filter(input) {
+				filter(input: string) {
 					return parseInt(input, 10);
 				},
 				validate(input) {
@@ -48,7 +48,7 @@ module.exports = class extends Generator {
 				name: 'height',
 				message: "Your graphic's height (in pixels)",
 				default: 1080,
-				filter(input) {
+				filter(input: string) {
 					return parseInt(input, 10);
 				},
 				validate(input) {
@@ -142,4 +142,4 @@ module.exports = class extends Generator {
 		// Let's extend package.json so we're not overwriting user previous fields
 		this.fs.writeJSON(this.destinationPath('package.json'), currentPkg);
 	}
-};
+}

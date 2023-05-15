@@ -3,6 +3,13 @@ import mockery from 'mockery';
 import path from 'path';
 import assert from 'yeoman-assert';
 import helpers from 'yeoman-test';
+import { URL } from 'url';
+import { createRequire } from 'node:module';
+import type Generator from 'yeoman-generator';
+
+const require = createRequire(import.meta.url);
+
+const __dirname = new URL('.', import.meta.url).pathname;
 
 describe('nodecg:app', () => {
 	before(async () => {
@@ -42,7 +49,7 @@ describe('nodecg:app', () => {
 			};
 			void helpers
 				.run(path.join(__dirname, '../generators/app'))
-				.withPrompts(this.answers)
+				.withPrompts(this.answers as Generator.Answers)
 				.on('error', done)
 				.on('end', done);
 		});
@@ -129,7 +136,7 @@ describe('nodecg:app', () => {
 			};
 			void helpers
 				.run(path.join(__dirname, '../generators/app'))
-				.withPrompts(this.answers)
+				.withPrompts(this.answers as Generator.Answers)
 				.on('error', done)
 				.on('end', done);
 		});
@@ -207,7 +214,7 @@ describe('nodecg:app', () => {
 			};
 			void helpers
 				.run(path.join(__dirname, '../generators/app'))
-				.withPrompts(this.answers)
+				.withPrompts(this.answers as Generator.Answers)
 				.on('error', done)
 				.on('end', done);
 		});

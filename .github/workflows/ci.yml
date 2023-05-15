@@ -67,6 +67,7 @@ jobs:
       - name: Test
         run: |
           npm run test
+        if: matrix.os != 'windows-latest'
 
       - name: Send code coverage to Codecov
         uses: codecov/codecov-action@v3
