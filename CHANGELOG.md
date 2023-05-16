@@ -26,10 +26,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [2.1.0](https://github.com/nodecg/generator-nodecg/compare/v2.0.1...v2.1.0) (2023-05-15)
 
-
 ### Features
 
-* test building the output bundle; misc other fixes ([d196ac3](https://github.com/nodecg/generator-nodecg/commit/d196ac3dc7933ecd931b163654b47d3e00c58715))
+-   test building the output bundle; misc other fixes ([d196ac3](https://github.com/nodecg/generator-nodecg/commit/d196ac3dc7933ecd931b163654b47d3e00c58715))
 
 ## [2.0.1](https://github.com/nodecg/generator-nodecg/compare/v2.0.0...v2.0.1) (2023-03-24)
 

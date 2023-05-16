@@ -8,8 +8,11 @@
     "email": "email@alexvan.camp",
     "url": "http://alexvan.camp"
   },
-  "exports": "./generators",
   "type": "module",
+  "exports": "./generators",
+  "files": [
+    "generators"
+  ],
   "keywords": [
     "yeoman-generator",
     "nodecg",
