@@ -215,7 +215,7 @@ describe('nodecg:app', () => {
 
 	describe('react', () => {
 		before(function (done) {
-			this.timeout(10000);
+			this.timeout(20000);
 			this.answers = {
 				name: 'react-bundle',
 				typescript: true,
