@@ -24,6 +24,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 <a name="1.0.3"></a>
 
+## [2.1.1](https://github.com/nodecg/generator-nodecg/compare/v2.1.0...v2.1.1) (2023-05-18)
+
+
+### Bug Fixes
+
+* force release-please build ([e2a0044](https://github.com/nodecg/generator-nodecg/commit/e2a00446ea679dc75ba5d924cadb780b2df6a73f))
+
 ## [2.1.0](https://github.com/nodecg/generator-nodecg/compare/v2.0.1...v2.1.0) (2023-05-15)
 
 ### Features
