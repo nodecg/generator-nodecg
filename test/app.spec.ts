@@ -37,7 +37,6 @@ describe('nodecg:app', () => {
 
 	describe('running on new project', () => {
 		before(function (done) {
-			this.timeout(10000);
 			this.answers = {
 				name: 'test-bundle',
 				description: 'A NodeCG bundle',
@@ -131,7 +130,6 @@ describe('nodecg:app', () => {
 
 	describe('typescript', () => {
 		before(function (done) {
-			this.timeout(10000);
 			this.answers = {
 				name: 'typescript-bundle',
 				typescript: true,
@@ -208,14 +206,13 @@ describe('nodecg:app', () => {
 
 		it('generates an actually buildable bundle', async function () {
 			// Increase timeout because npm install (and build) can take some time...
-			this.timeout(130000);
+			this.timeout(300000); // 5 minutes
 			await checkBuild();
 		});
 	});
 
 	describe('react', () => {
 		before(function (done) {
-			this.timeout(10000);
 			this.answers = {
 				name: 'react-bundle',
 				typescript: true,
