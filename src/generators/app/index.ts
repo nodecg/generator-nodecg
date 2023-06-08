@@ -205,10 +205,10 @@ export default class AppGenerator extends Generator {
 		if (this.props.typescript) {
 			/* eslint-disable @typescript-eslint/naming-convention */
 			pkg.scripts = {
-				build: 'node scripts/build.mjs',
-				'build:extension': 'node scripts/build.mjs --skipBrowser',
-				watch: 'node scripts/build.mjs --watch',
-				'watch:browser': 'node scripts/build.mjs --skipExtension --watch',
+				build: 'node scripts/build.mjs --all',
+				'build:extension': 'node scripts/build.mjs --extension',
+				watch: 'node scripts/build.mjs --all --watch',
+				'watch:browser': 'node scripts/build.mjs --dashboard --graphics --watch',
 				dev: 'concurrently --kill-others "npm run watch:browser" "nodemon"',
 				'generate-schema-types': 'trash src/types/schemas && nodecg schema-types',
 			};
