@@ -24,6 +24,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 <a name="1.0.3"></a>
 
+## [2.1.3](https://github.com/nodecg/generator-nodecg/compare/v2.1.2...v2.1.3) (2023-06-08)
+
+
+### Bug Fixes
+
+* use correct scripts for react+typescript ([d92c215](https://github.com/nodecg/generator-nodecg/commit/d92c21547ace5660a23c440fdaa9280a382dfb58))
+
 ## [2.1.2](https://github.com/nodecg/generator-nodecg/compare/v2.1.1...v2.1.2) (2023-06-08)
 
 
