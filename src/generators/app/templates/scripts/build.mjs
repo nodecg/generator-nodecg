@@ -14,44 +14,106 @@ import { Parcel } from '@parcel/core';
 // Ours
 import pjson from '../package.json' assert { type: 'json' };
 
-const entries = [];
-if (!argv.includes('--skipBrowser')) {
-	entries.push(...glob.sync('src/{dashboard,graphics}/**/*.html'));
-}
-if (!argv.includes('--skipExtension')) {
-	entries.push(...glob.sync('src/extension/index.ts'));
+const buildAll = argv.includes('--all');
+const buildExtension = argv.includes('--extension') || buildAll;
+const buildDashboard = argv.includes('--dashboard') || buildAll;
+const buildGraphics = argv.includes('--graphics') || buildAll;
+
+const bundlers = new Set();
+const commonBrowserTargetProps = {
+	engines: {
+		browsers: ['last 5 Chrome versions'],
+	},
+	context: 'browser',
+};
+
+if (buildDashboard) {
+	bundlers.add(
+		new Parcel({
+			entries: glob.sync('src/dashboard/**/*.html'),
+			targets: {
+				default: {
+					...commonBrowserTargetProps,
+					distDir: 'dashboard',
+					publicUrl: `/bundles/${pjson.name}/dashboard`,
+				},
+			},
+			defaultConfig: '@parcel/config-default',
+			additionalReporters: [
+				{
+					packageName: '@parcel/reporter-cli',
+					resolveFrom: fileURLToPath(import.meta.url),
+				},
+			],
+		}),
+	);
 }
 
-const bundler = new Parcel({
-	entries,
-	defaultConfig: '@parcel/config-default',
-	defaultTargetOptions: {
-		engines: {
-			browsers: ['last 5 Chrome versions'],
-		},
-		publicUrl: `/bundles/${pjson.name}`,
-		distDir: argv.includes('--skipBrowser') ? 'extension' : '.',
-	},
-	additionalReporters: [
-		{
-			packageName: '@parcel/reporter-cli',
-			resolveFrom: fileURLToPath(import.meta.url),
-		},
-	],
-});
+if (buildGraphics) {
+	bundlers.add(
+		new Parcel({
+			entries: glob.sync('src/graphics/**/*.html'),
+			targets: {
+				default: {
+					...commonBrowserTargetProps,
+					distDir: 'graphics',
+					publicUrl: `/bundles/${pjson.name}/graphics`,
+				},
+			},
+			defaultConfig: '@parcel/config-default',
+			additionalReporters: [
+				{
+					packageName: '@parcel/reporter-cli',
+					resolveFrom: fileURLToPath(import.meta.url),
+				},
+			],
+		}),
+	);
+}
+
+if (buildExtension) {
+	bundlers.add(
+		new Parcel({
+			entries: 'src/extension/index.ts',
+			targets: {
+				default: {
+					context: 'node',
+					distDir: 'extension',
+				},
+			},
+			defaultConfig: '@parcel/config-default',
+			additionalReporters: [
+				{
+					packageName: '@parcel/reporter-cli',
+					resolveFrom: fileURLToPath(import.meta.url),
+				},
+			],
+		}),
+	);
+}
 
 try {
 	if (argv.includes('--watch')) {
-		await bundler.watch((err) => {
-			if (err) {
-				// fatal error
-				throw err;
-			}
-		});
+		const watchPromises = [];
+		for (const bundler of bundlers.values()) {
+			watchPromises.push(
+				bundler.watch((err) => {
+					if (err) {
+						// fatal error
+						throw err;
+					}
+				}),
+			);
+		}
+		await Promise.all(watchPromises);
 	} else {
-		await bundler.run();
+		const buildPromises = [];
+		for (const bundler of bundlers.values()) {
+			buildPromises.push(bundler.run());
+		}
+		await Promise.all(buildPromises);
 	}
-	console.log("Bundle build completed successfully");
+	console.log('Bundle build completed successfully');
 } catch (_) {
 	// the reporter-cli package will handle printing errors to the user
 	process.exit(1);
