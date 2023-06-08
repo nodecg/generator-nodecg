@@ -24,6 +24,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 <a name="1.0.3"></a>
 
+## [2.1.2](https://github.com/nodecg/generator-nodecg/compare/v2.1.1...v2.1.2) (2023-06-08)
+
+
+### Bug Fixes
+
+* make parcel builds actually work ([#89](https://github.com/nodecg/generator-nodecg/issues/89)) ([302b40d](https://github.com/nodecg/generator-nodecg/commit/302b40d30c64c830161b1f3aa69503b9dc2e3301))
+
 ## [2.1.1](https://github.com/nodecg/generator-nodecg/compare/v2.1.0...v2.1.1) (2023-05-18)
 
 
