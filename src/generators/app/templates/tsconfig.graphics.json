@@ -1,4 +1,4 @@
 {
 	"extends": "../../tsconfig.build.json",
-	"include": ["**/*.ts", "../types/**/*.ts", "../../node_modules/@nodecg/types/augment-window.d.ts"]
+	"include": ["**/*.tsx", "**/*.ts", "../types/**/*.ts", "../../node_modules/@nodecg/types/augment-window.d.ts"]
 }
