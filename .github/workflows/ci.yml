@@ -28,7 +28,7 @@ jobs:
           key: npm-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn --ignore-engines --frozen-lockfile --network-timeout 1000000
+        run: npm ci
 
       - name: Lint
         run: |
@@ -58,7 +58,7 @@ jobs:
           key: npm-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn --ignore-engines --frozen-lockfile --network-timeout 1000000
+        run: npm ci
 
       - name: Build
         run: |
