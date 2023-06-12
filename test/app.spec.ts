@@ -184,7 +184,7 @@ describe('nodecg:app', () => {
 		});
 
 		it('adds build scripts to package.json', () => {
-			assert.fileContent('typescript-bundle/package.json', '"build": "node scripts/build.mjs"');
+			assert.fileContent('typescript-bundle/package.json', '"build": "node scripts/build.mjs --all"');
 			assert.fileContent(
 				'typescript-bundle/package.json',
 				'"build:extension": "node scripts/build.mjs --extension"',
