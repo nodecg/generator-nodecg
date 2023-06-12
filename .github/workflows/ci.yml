@@ -65,6 +65,9 @@ jobs:
         run: |
           npm run build
 
+      - name: Install nodecg-cli to use in tests
+        run: npm i -g nodecg-cli@latest
+
       - name: Test
         run: |
           npm run test
