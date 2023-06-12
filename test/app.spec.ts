@@ -187,16 +187,16 @@ describe('nodecg:app', () => {
 			assert.fileContent('typescript-bundle/package.json', '"build": "node scripts/build.mjs"');
 			assert.fileContent(
 				'typescript-bundle/package.json',
-				'"build:extension": "node scripts/build.mjs --skipBrowser"',
+				'"build:extension": "node scripts/build.mjs --extension"',
 			);
 			assert.fileContent('typescript-bundle/package.json', '"watch": "node scripts/build.mjs --watch"');
 			assert.fileContent(
 				'typescript-bundle/package.json',
-				'"watch:browser": "node scripts/build.mjs --skipExtension --watch"',
+				'"watch:browser": "node scripts/build.mjs --dashboard --graphics --watch"',
 			);
 			assert.fileContent(
 				'typescript-bundle/package.json',
-				`"dev": "concurrently --kill-others \\"npm run watch:browser\\" \\"nodemon\\""`,
+				`"dev": "concurrently --kill-others "npm run watch:schemas" "npm run watch:browser" "nodemon""`,
 			);
 			assert.fileContent(
 				'typescript-bundle/package.json',
