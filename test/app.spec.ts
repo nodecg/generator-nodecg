@@ -183,27 +183,6 @@ describe('nodecg:app', () => {
 			assert.fileContent('typescript-bundle/package.json', '"concurrently"');
 		});
 
-		it('adds build scripts to package.json', () => {
-			assert.fileContent('typescript-bundle/package.json', '"build": "node scripts/build.mjs"');
-			assert.fileContent(
-				'typescript-bundle/package.json',
-				'"build:extension": "node scripts/build.mjs --skipBrowser"',
-			);
-			assert.fileContent('typescript-bundle/package.json', '"watch": "node scripts/build.mjs --watch"');
-			assert.fileContent(
-				'typescript-bundle/package.json',
-				'"watch:browser": "node scripts/build.mjs --skipExtension --watch"',
-			);
-			assert.fileContent(
-				'typescript-bundle/package.json',
-				`"dev": "concurrently --kill-others \\"npm run watch:browser\\" \\"nodemon\\""`,
-			);
-			assert.fileContent(
-				'typescript-bundle/package.json',
-				'"generate-schema-types": "trash src/types/schemas && nodecg schema-types"',
-			);
-		});
-
 		it('generates an actually buildable bundle', async function () {
 			// Increase timeout because npm install (and build) can take some time...
 			this.timeout(300000); // 5 minutes

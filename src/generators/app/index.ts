@@ -209,7 +209,8 @@ export default class AppGenerator extends Generator {
 				'build:extension': 'node scripts/build.mjs --extension',
 				watch: 'node scripts/build.mjs --all --watch',
 				'watch:browser': 'node scripts/build.mjs --dashboard --graphics --watch',
-				dev: 'concurrently --kill-others "npm run watch:browser" "nodemon"',
+				'watch:schemas': 'node scripts/build.mjs --schemas --watch',
+				dev: 'concurrently --kill-others "npm run watch:schemas" "npm run watch:browser" "nodemon"',
 				'generate-schema-types': 'trash src/types/schemas && nodecg schema-types',
 			};
 			/* eslint-enable @typescript-eslint/naming-convention */
@@ -253,6 +254,10 @@ export default class AppGenerator extends Generator {
 				this.fs.copy(this.templatePath('scripts/build.mjs'), this.destinationPath('scripts/build.mjs'));
 			}
 
+			if (!this.fs.exists(this.destinationPath('scripts/debounce.mjs'))) {
+				this.fs.copy(this.templatePath('scripts/debounce.mjs'), this.destinationPath('scripts/debounce.mjs'));
+			}
+
 			if (!this.fs.exists(this.destinationPath('.parcelrc'))) {
 				this.fs.copy(this.templatePath('.parcelrc'), this.destinationPath('.parcelrc'));
 			}
@@ -280,6 +285,10 @@ export default class AppGenerator extends Generator {
 
 			if (!this.fs.exists(this.destinationPath('nodemon.json'))) {
 				this.fs.copy(this.templatePath('nodemon.json'), this.destinationPath('nodemon.json'));
+			}
+
+			if (!this.fs.exists(this.destinationPath('.eslintignore'))) {
+				this.fs.copy(this.templatePath('.eslintignore'), this.destinationPath('.eslintignore'));
 			}
 
 			await this.addDependencies(['ts-node']);

@@ -28,7 +28,7 @@ jobs:
           key: npm-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn --ignore-engines --frozen-lockfile --network-timeout 1000000
+        run: npm ci
 
       - name: Lint
         run: |
@@ -36,6 +36,7 @@ jobs:
 
   build-test:
     strategy:
+      fail-fast: false
       matrix:
         node-version: [16.x, 18.x]
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -58,11 +59,14 @@ jobs:
           key: npm-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn --ignore-engines --frozen-lockfile --network-timeout 1000000
+        run: npm ci
 
       - name: Build
         run: |
           npm run build
+
+      - name: Install nodecg-cli to use in tests
+        run: npm i -g nodecg-cli@latest
 
       - name: Test
         run: |
