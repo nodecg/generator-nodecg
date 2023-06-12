@@ -189,7 +189,7 @@ describe('nodecg:app', () => {
 				'typescript-bundle/package.json',
 				'"build:extension": "node scripts/build.mjs --extension"',
 			);
-			assert.fileContent('typescript-bundle/package.json', '"watch": "node scripts/build.mjs --watch"');
+			assert.fileContent('typescript-bundle/package.json', '"watch": "node scripts/build.mjs --all --watch"');
 			assert.fileContent(
 				'typescript-bundle/package.json',
 				'"watch:browser": "node scripts/build.mjs --dashboard --graphics --watch"',
