@@ -24,6 +24,20 @@ All notable changes to this project will be documented in this file. See [standa
 
 <a name="1.0.3"></a>
 
+## [2.2.0](https://github.com/nodecg/generator-nodecg/compare/v2.1.3...v2.2.0) (2023-06-12)
+
+
+### Features
+
+* improve typescript build process; automatically (re)build replicant schemas ([#93](https://github.com/nodecg/generator-nodecg/issues/93)) ([32ed8a9](https://github.com/nodecg/generator-nodecg/commit/32ed8a9b761e693cc5b6f36c0bd702860c850f74))
+
+
+### Bug Fixes
+
+* edit the correct file :doggolul: ([ae20746](https://github.com/nodecg/generator-nodecg/commit/ae207469a258467383ad6cc2714bc941c43de838))
+* include tsx files in linting (properly, such that ESLint won't warn about it) ([6c608bb](https://github.com/nodecg/generator-nodecg/commit/6c608bb72f8d6b4899ed6eaf40b6f92c48603ddb))
+* include tsx files in typescript builds ([570902b](https://github.com/nodecg/generator-nodecg/commit/570902b7cb0785b2ffc032519be566a9549b8a6d))
+
 ## [2.1.3](https://github.com/nodecg/generator-nodecg/compare/v2.1.2...v2.1.3) (2023-06-08)
 
 
