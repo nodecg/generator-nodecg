@@ -291,25 +291,23 @@ export default class AppGenerator extends Generator {
 				this.fs.copy(this.templatePath('.eslintignore'), this.destinationPath('.eslintignore'));
 			}
 
+			/* eslint-disable @typescript-eslint/naming-convention */
 			await this.addDependencies(['ts-node']);
-			await this.addDevDependencies([
-				'typescript',
-				'@types/node',
-				'@parcel/core',
-				'@parcel/config-default',
-				'@parcel/reporter-cli',
-				'@parcel/validator-typescript',
-				'glob',
-				'trash-cli',
-				'nodemon',
-				'concurrently',
-			]);
 			await this.addDevDependencies({
-				/* eslint-disable @typescript-eslint/naming-convention */
+				typescript: '^5.1.3',
+				'@types/node': '^18',
 				'@nodecg/types': this.props.compatibleRange ?? '*',
-				/* eslint-enable @typescript-eslint/naming-convention */
+				'@parcel/core': '*',
+				'@parcel/config-default': '*',
+				'@parcel/reporter-cli': '*',
+				'@parcel/validator-typescript': '*',
+				glob: '^10.2.7',
+				'trash-cli': '*',
+				nodemon: '*',
+				concurrently: '*',
 			});
-
+			/* eslint-enable @typescript-eslint/naming-convention */
+			
 			if (this.props.react) {
 				await this.addDependencies(['react', 'react-dom']);
 				await this.addDependencies(['@types/react', '@types/react-dom']);
