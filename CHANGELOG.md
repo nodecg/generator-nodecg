@@ -24,6 +24,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 <a name="1.0.3"></a>
 
+## [2.2.1](https://github.com/nodecg/generator-nodecg/compare/v2.2.0...v2.2.1) (2023-06-20)
+
+
+### Bug Fixes
+
+* use more specific version ranges for generated typescript bundle dev dependencies ([6111f0e](https://github.com/nodecg/generator-nodecg/commit/6111f0e4949b8998a869358cc21f79fb2d7124cc))
+
 ## [2.2.0](https://github.com/nodecg/generator-nodecg/compare/v2.1.3...v2.2.0) (2023-06-12)
 
 
