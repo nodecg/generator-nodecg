@@ -24,6 +24,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 <a name="1.0.3"></a>
 
+## [2.2.2](https://github.com/nodecg/generator-nodecg/compare/v2.2.1...v2.2.2) (2023-08-06)
+
+
+### Bug Fixes
+
+* make @types/react and @types/react-dom dev dependencies ([20712a7](https://github.com/nodecg/generator-nodecg/commit/20712a709a5ea7789051704c9694367dc34f8d50))
+
 ## [2.2.1](https://github.com/nodecg/generator-nodecg/compare/v2.2.0...v2.2.1) (2023-06-20)
 
 
