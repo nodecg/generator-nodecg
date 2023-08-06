@@ -310,7 +310,7 @@ export default class AppGenerator extends Generator {
 			
 			if (this.props.react) {
 				await this.addDependencies(['react', 'react-dom']);
-				await this.addDependencies(['@types/react', '@types/react-dom']);
+				await this.addDevDependencies(['@types/react', '@types/react-dom']);
 			}
 		}
 
